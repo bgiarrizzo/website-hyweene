@@ -18,11 +18,11 @@
 
 {% block content %}
     <h1>{{ link.title }}</h1>
-    <p>Lien d'origine : <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></p>
     <p>Publié le {{ link.publish_date.medium }}</p>
     {% if link.update_date and link.update_date != link.publish_date %}
         <p>Mis à jour le {{ link.update_date.medium }}</p>
     {% endif %}
+    <p>Lien d'origine : <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></p>
 
     <hr />
 
