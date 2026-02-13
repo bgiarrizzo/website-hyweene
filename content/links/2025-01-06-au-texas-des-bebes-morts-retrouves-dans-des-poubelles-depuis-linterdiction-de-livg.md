@@ -3,7 +3,6 @@ title: "Au Texas, des bébés morts retrouvés dans des poubelles depuis l'inter
 url: https://www.slate.fr/monde/bebes-poubelle-interdiction-avortement-texas-etats-unis-abandons-mort-nourrisson-roe-wade-femmes-enfants-legislation-anti-ivg
 publish_date: 2025-01-06T11:00:07+01:00
 update_date: 2025-01-06T11:00:07+01:00
-tags: [ "Bébé", "mort", "poubelle", "texas", "interdiction", "ivg"]
 ---
 
 Stupéfaction !! On ne s’y attendait pas !

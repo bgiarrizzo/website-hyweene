@@ -13,12 +13,11 @@
 {% endblock linkCanonical %}
 
 {% block meta_keywords %}
-    <meta name="keywords" content="{{ site.keywords | join(', ') | lower }}, Liens, {{ link.tags | join(', ') | lower }}">
+    <meta name="keywords" content="{{ site.keywords | join(', ') | lower }}, liens">
 {% endblock meta_keywords %}
 
 {% block content %}
     <h1>{{ link.title }}</h1>
-
     <p>Lien d'origine : <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></p>
 
     <hr />

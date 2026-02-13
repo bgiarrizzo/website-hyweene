@@ -3,7 +3,6 @@ title: "ChatGPT, Mistral et les autres poussent les femmes à négocier de faibl
 url: https://next.ink/brief_article/chatgpt-mistral-et-les-autres-poussent-les-femmes-a-negocier-de-faibles-salaires/
 publish_date: 2025-07-21T18:03:12+01:00
 update_date: 2025-07-21T18:03:12+01:00
-tags: ["Chatgpt", "IA", "conseille", "femmes", "salaire", "inférieur", "hommes"]
 ---
 
 Je trouve ça logique, même si c’est dégueulasse.

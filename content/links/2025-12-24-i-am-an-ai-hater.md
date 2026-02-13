@@ -3,7 +3,6 @@ title: "I Am An AI Hater | moser’s frame shop"
 url: https://anthonymoser.github.io/writing/ai/haterdom/2025/08/26/i-am-an-ai-hater.html
 publish_date: 2025-12-24T01:43:43+01:00
 update_date: 2025-12-24T01:43:43+01:00
-tags: ["AI hater", "human"]
 ---
 
 Moi aussi je suis un hater d'IA ... Pourquoi ? Bah comme dit dans l'article :

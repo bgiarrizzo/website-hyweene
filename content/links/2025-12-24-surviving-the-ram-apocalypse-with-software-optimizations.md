@@ -3,10 +3,6 @@ title: "Surviving The RAM Apocalypse With Software Optimizations"
 url: https://hackaday.com/2025/12/23/surviving-the-ram-apocalypse-with-software-optimizations/
 publish_date: 2025-12-24T00:39:28+01:00
 update_date: 2025-12-24T00:39:28+01:00
-tags: [
-"Ram apocalypse",
-"optimization",
-"pénurie ram"]
 ---
 
 On va peut être enfin commencer à optimiser les applications, mobile, desktop, web & cie ?

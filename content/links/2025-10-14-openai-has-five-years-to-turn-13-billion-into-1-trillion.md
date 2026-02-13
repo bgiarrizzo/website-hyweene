@@ -3,7 +3,6 @@ title: "OpenAI has five years to turn $13 billion into $1 trillion | TechCrunch"
 url: "https://techcrunch.com/2025/10/14/openai-has-five-years-to-turn-13-billion-into-1-trillion/"
 publish_date: 2025-10-15T10:54:24+01:00
 update_date: 2025-10-15T10:54:24+01:00
-tags: ['openai', 'rentabilité', 'augmentations']
 ---
 
 > Raking in billions though it may be, OpenAI has also committed to spending over $1 trillion over the next decade (yes, trillion).

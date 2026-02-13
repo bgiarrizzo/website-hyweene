@@ -3,7 +3,6 @@ title: "En Albanie, le chef du gouvernement nomme un ministre généré par l’
 url: https://www.huffingtonpost.fr/international/article/en-albanie-le-chef-du-gouvernement-nomme-un-ministre-genere-par-l-ia-une-premiere_254715.html
 publish_date: 2025-09-12T13:59:07+01:00
 update_date: 2025-09-15T11:53:07+01:00
-tags: ["Ministre", "generé", "ia", "albanie"]
 ---
 
 Que pourrait-il mal se passer ??

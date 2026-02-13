@@ -3,7 +3,6 @@ title: "Swift at Apple: Migrating the Password Monitoring service from Java"
 url: https://www.swift.org/blog/swift-at-apple-migrating-the-password-monitoring-service-from-java/
 publish_date: 2025-07-20T19:22:29+01:00
 update_date: 2025-07-20T19:22:29+01:00
-tags: [ "Apple", "Swift", "remplacement", "java", "économie", "ressources"]
 ---
 
 Un peu en retard, l’article date de Juin 😄 

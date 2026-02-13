@@ -3,7 +3,6 @@ title: "Vous pourriez bientôt vous retrouver à parler aux publicités grâce �
 url: https://webmarketing.developpez.com/actu/364969/Vous-pourriez-bientot-vous-retrouver-a-parler-aux-publicites-grace-a-une-technologie-d-IA-qui-permet-aux-consommateurs-d-engager-des-conversations-en-temps-reel-directement-dans-les-espaces-publicitaires/
 publish_date: 2024-11-21T11:30:00+01:00
 update_date: 2024-11-21T11:30:00+01:00
-tags: [ "IA", "publicité", "conversation", "enfer", "personnel", "pub", "adblock" ]
 ---
 
 Mon enfer personnel ...
