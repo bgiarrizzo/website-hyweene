@@ -11,3 +11,21 @@ Page créée le 16 Février 2026. Mise à jour le 17 Février 2026.
 > La plupart de [ces pages sont répertoriées ici](https://nownownow.com/). [Les pages francophones se trouvent ici](https://encemoment.site/).
 
 Je raconterai ici ce qui se passe pour oim :)
+
+## Vie Perso 
+
+### Jouer
+
+### Coder
+
+### Lire
+
+### Ecouter
+
+### Regarder
+
+### Sporter
+
+## Vie Pro 
+
+...
