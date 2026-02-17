@@ -1,3 +1,12 @@
 [tools]
 python = "3.12"
 uv = "latest"
+
+[tasks.setup]
+description = "Install dependencies"
+alias = "i"
+run = "uv sync"
+
+[tasks.lint]
+description = "Lint the code"
+run = "ruff check src/"

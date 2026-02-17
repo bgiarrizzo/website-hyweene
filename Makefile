@@ -17,10 +17,10 @@ VENV_PATH := $(PROJECT_FOLDER)/$(VENV_FOLDER)
 LOG_PATH_SERVER_SIDE := /var/log/nginx/hack-with-hyweene.com
 LOG_PARSE_EXCLUDE_PATTERNS := 403|192.168.1.|static|html|400|stats|php|wp-|wordpr|\.env|\.git|\.txt
 VENV_BIN := $(VENV_PATH)/$(BIN_FOLDER)
-PY_INTERPRETER := $(VENV_BIN)/python
+PY_INTERPRETER := python
 
 MISE := ~/.local/bin/mise
-PACKAGER := uv@latest
+PACKAGER := uv
 
 # Check if .env file exists and load it
 ifneq ("$(wildcard $(DOTENV_PATH))","")
@@ -34,11 +34,7 @@ help:
 
 .PHONY: install
 install: install_mise ## Install dependencies
-	$(MISE) exec $(PACKAGER) -- sync
-
-.PHONY: install_dev
-install_dev: install_mise ## Install development dependencies
-	$(MISE) exec $(PACKAGER) -- sync --dev
+	$(MISE) setup
 
 .PHONY: install_mise
 install_mise: ## Install the packager
@@ -55,7 +51,7 @@ install_mise: ## Install the packager
 	fi
 
 .PHONY: install_smolwebvalidator
-install_smolwebvalidator: venv ## Install smolweb-validator
+install_smolwebvalidator: ## Install smolweb-validator
 	mkdir -p $(BIN_FOLDER)
 	@if [ ! -d "$(BIN_FOLDER)/smolweb-validator" ]; then \
 		git clone https://codeberg.org/smolweb/smolweb-validator.git $(BIN_FOLDER)/smolweb-validator; \
@@ -65,33 +61,17 @@ install_smolwebvalidator: venv ## Install smolweb-validator
 		exit 0; \
 	fi
 
-.PHONY: create_venv
-create_venv: ## Create virtual environment
-	@if [ ! -d "$(VENV_FOLDER)" ]; then \
-		if ! command -v python &> /dev/null; then \
-			python3 -m venv $(VENV_FOLDER); \
-		else \
-			python -m venv $(VENV_FOLDER); \
-		fi \
-	else \
-		echo "Virtual environment already exists at $(VENV_PATH)"; \
-	fi
-
-.PHONY: venv
-venv: create_venv ## Load virtual environment
-	. $(VENV_BIN)/activate
-
 .PHONY: build
-build: venv install ## Build the project
-	. $(VENV_BIN)/activate; $(PY_INTERPRETER) src/main.py
+build: ## Build the project
+	${PACKAGER} run $(PY_INTERPRETER) src/main.py
 
 .PHONY: serve
-serve: venv install build ## Run a local server
+serve: build ## Run a local server
 	ps -ef | grep '[p]ython -m http.server' | awk '{print $$2}' | xargs -r kill -9
-	. $(VENV_BIN)/activate; $(PY_INTERPRETER) -m http.server 8000 --directory build/ > /dev/null 2>&1 &
+	${PACKAGER} run $(PY_INTERPRETER) -m http.server 8000 --directory build/ > /dev/null 2>&1 &
 
 .PHONY: smolwebvalidator
-smolwebvalidator: venv install install_smolwebvalidator serve ## Validate HTML files in the build directory
+smolwebvalidator: install_smolwebvalidator serve ## Validate HTML files in the build directory
 	echo "SmolWeb Validation ..."
 
 	bash $(SCRIPTS_PATH)/smolweb_validator.sh
@@ -100,16 +80,16 @@ smolwebvalidator: venv install install_smolwebvalidator serve ## Validate HTML f
 	ps -ef | grep '[p]ython -m http.server' | awk '{print $$2}' | xargs -r kill -9 > /dev/null 2>&1
 
 .PHONY: html5validator
-html5validator: venv install_dev build ## Validate HTML files in the build directory
-	. $(VENV_BIN)/activate; html5validator --root build/
+html5validator: build ## Validate HTML files in the build directory
+	${PACKAGER} run html5validator --root build/
 
 .PHONY: generate_docstrings
-generate_docstrings: venv install_dev ## Generate modules/classes/functions docstrings
-	. $(VENV_BIN)/activate; pyment -f false -o numpydoc -w src
+generate_docstrings: ## Generate modules/classes/functions docstrings
+	${PACKAGER} run pyment -f false -o numpydoc -w src
 
 .PHONY: quick_add_link
-quick_add_link: venv install_dev ## Quick add a new link to the website
-	. $(VENV_BIN)/activate; $(PY_INTERPRETER) $(SCRIPTS_PATH)/quick_add_link.py $(URL)
+quick_add_link: ## Quick add a new link to the website
+	${PACKAGER} run $(PY_INTERPRETER) $(SCRIPTS_PATH)/quick_add_link.py $(URL)
 
 .PHONY: top_25_rss_readers
 top_25_rss_readers: ## Show top 25 rss readers from access.log
