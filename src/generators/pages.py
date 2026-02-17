@@ -59,7 +59,7 @@ class Page(Factory):
     def write_sitemap_xml(self):
         data = {"page": self}
         template_name = "page/sitemap.xml"
-        filename = f"sitemap-pages.xml"
+        filename = "sitemap-pages.xml"
         print(f"Writing page sitemap: {filename}")
         write_file(data, template_name, filename, filetype="xml")
 

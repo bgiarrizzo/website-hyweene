@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from os import makedirs, path
 
 from jinja2 import Environment, FileSystemLoader
