@@ -13,7 +13,7 @@
     <uri>{{ site.url }}</uri>
   </author>
 
-  {% for post in posts %}
+  {% for post in posts | sort(attribute='publish_date.original', reverse=True) %}
     {% if not post.draft %}
       <entry>
         <id>{{ site.url }}/blog/{{ post.path }}/</id>

@@ -13,7 +13,7 @@
     <uri>{{ site.url }}</uri>
   </author>
 
-  {% for link in links %}
+  {% for link in links | sort(attribute='publish_date.original', reverse=True) %}
     <entry>
       <id>{{ site.url }}/liens/{{ link.path }}/</id>
       <title>{{ link.title }}</title>

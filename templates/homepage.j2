@@ -35,7 +35,7 @@
     <p>Les derniers articles du blog sont accessible également via <a href="/blog/feed.xml">RSS</a>.</p>
 
     <ul class="homepage-blog-list">
-        {% for post in (all_posts | sort(attribute='publish_date.original', reverse=True))[:10] %}
+        {% for post in (all_posts | sort(attribute='publish_date.original'))[:10] %}
             {% if not post.draft %}
                 <li>
                     <span>{{ post.publish_date.long }}</span>
