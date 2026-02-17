@@ -37,8 +37,10 @@ gruvbox = {
 class Settings(BaseSettings):
     """ """
 
+    SCHEME: str = "https"
     SHORT_URL: str = "hyweene.fr"
-    BASE_URL: str = f"https://www.{SHORT_URL}"
+    LONG_URL: str = f"www.{SHORT_URL}"
+    BASE_URL: str = f"{SCHEME}://{LONG_URL}"
 
     BUILD_PATH: str = "build"
     MEDIA_PATH: str = "media"
