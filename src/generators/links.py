@@ -32,7 +32,7 @@ class Links(Factory):
         data = {"page_title": "Liens", "all_links": self.links}
         template_name = "links/list.j2"
         filename = "liens/index.html"
-        
+
         print(f"Writing link list: {filename}")
         write_file(data=data, template_name=template_name, filename=filename)
         print("#", "-" * 70)
@@ -90,3 +90,5 @@ def process_links_data(links_path):
     links.write_rss_feed()
     links.write_sitemap()
     links.write_link_list_file()
+
+    return links

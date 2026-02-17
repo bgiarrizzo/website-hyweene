@@ -2,6 +2,7 @@ import locale
 import shutil
 
 from config import settings
+from generators.homepage import build_homepage
 from generators.blog import process_blog_data
 from generators.pages import process_pages_data
 from generators.links import process_links_data
@@ -24,11 +25,14 @@ if __name__ == "__main__":
     print("#", "-" * 90)
     print("Building site ...")
 
-    process_blog_data(settings.BLOG_PATH)
+    blog = process_blog_data(settings.BLOG_PATH)
+    links = process_links_data(settings.LINKS_PATH)
+
     process_pages_data(settings.PAGES_PATH)
-    process_links_data(settings.LINKS_PATH)
     process_learn_data(settings.LEARN_PATH)
     process_resume_data(settings.RESUME_PATH)
+
+    build_homepage(blog.posts, links.links)
 
     build_robots_txt(settings.BASE_URL)
 

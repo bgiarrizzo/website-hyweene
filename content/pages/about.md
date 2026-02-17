@@ -1,11 +1,9 @@
 ---
-title: "homepage"
-meta_title: "homepage"
-permalink: ""
+title: "À Propos"
+meta_title: "À Propos"
+permalink: "about"
 cover: about/cover.jpg
 ---
-
-Bienvenue sur mon site ! 
 
 Je suis Bruno Giarrizzo (ou Hyweene), SysOps / Développeur / Bricoleur, passionné par l'IT depuis l'adolescence, basé à Lille, dans le Nord de la France. Avec plus de 10 ans d'expérience pro dans le domaine de l'informatique, j'ai acquis une certaine expérience en tant que SysOps et DevOps, ainsi qu'en développement Python.
 

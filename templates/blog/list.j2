@@ -55,7 +55,7 @@
         <h2 class="blog-list-header">{{ year }}</h2>
 
         <ul class="blog-list">
-            {% for post in posts | sort(attribute='publish_date.original', reverse=True)%}
+            {% for post in posts | sort(attribute='publish_date.original', reverse=True) %}
                 {% if not post.draft %}
                     <li>
                         <span>{{ post.publish_date.long }}</span>

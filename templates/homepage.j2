@@ -1,27 +1,62 @@
 {% extends "main.j2" %}
 
 {% block specific_css %}
-    .homepage { width: 100%; text-align: center; margin: 0; position: absolute; top: 50%; transform: translateY(-50%); }
-    .homepage h1 { font-size: 3em; margin-bottom: 0; }
-    .homepage h2 { border-bottom: 0px; margin-top: 0.5em; }
-    .homepage-links { display: flex; align-items: center; justify-content: center; flex-direction: row; list-style-type: none; margin: 0; padding: 0; }
-    .homepage-links li { margin: 0 1em; font-size: 1.5em; }
-    .homepage-links li a { color: {{ site.colors.body_link_color }}; text-decoration: none; font-weight: bold; }
+    .homepage-blog-list { list-style-type: none; padding: 0; margin: 0; }
+    .homepage-blog-list li { display: flex; align-items: center; flex-direction: row-reverse; justify-content: space-between; border-bottom: 1px solid; }
+    .homepage-blog-list li:first-child { border-top: 1px solid; }
+    .homepage-blog-list li a { font-weight: bold; }
+    .homepage-blog-list span { min-width: 175px; text-align: right; }
+    .homepage-blog-list-header { border-bottom: 0px; }
+
+    @media (max-width: 768px) {
+        .homepage-blog-list li { flex-direction: column; align-items: flex-start; padding: 0.5em 0;}
+        .homepage-blog-list li a { text-align: left; width: 100%; margin: 0; padding: 0; font-size: 0.9em; font-weight: bold; }
+        .homepage-blog-list li span { text-align: left; width: 100%; font-size: 0.7em; }
+    }
+
+    .homepage-link-list { list-style-type: none; padding: 0; margin: 0; }
+    .homepage-link-list li { display: flex; align-items: center; flex-direction: row-reverse; justify-content: space-between; border-bottom: 1px solid; }
+    .homepage-link-list li:first-child { border-top: 1px solid; }
+    .homepage-link-list li a { font-weight: bold; }
+    .homepage-link-list span { min-width: 175px; text-align: right; }
+    .homepage-link-list-header { border-bottom: 0px; margin: 1em 0;}
+
+    @media (max-width: 768px) {
+        .homepage-link-list li { flex-direction: column; align-items: flex-start; padding: 0.5em 0;}
+        .homepage-link-list li a { text-align: left; width: 100%; margin: 0; padding: 0; font-size: 0.9em; font-weight: bold; }
+        .homepage-link-list li span { text-align: left; width: 100%; font-size: 0.7em; }
+    }
+
 {% endblock specific_css %}
 
 {% block content %}
-    <div class="homepage">
-        <h1>{{ site.name }}</h1>
+    <h2>Derniers Articles du blog</h2>
 
-        <h2>{{ site.description }}</h2>
+    <p>Les derniers articles du blog sont accessible également via <a href="/blog/feed.xml">RSS</a>.</p>
 
-        <ul class="homepage-links">
-            <li>
-                <a href="{{ site.github_link }}" target="_blank">Github</a>
-            </li>
-            <li>
-                <a href="{{ site.linkedin_link }}" target="_blank">LinkedIn</a>
-            </li>
-        </ul>
-    </div>
+    <ul class="homepage-blog-list">
+        {% for post in (all_posts | sort(attribute='publish_date.original', reverse=True))[:10] %}
+            {% if not post.draft %}
+                <li>
+                    <span>{{ post.publish_date.long }}</span>
+                    <a href="/blog/{{ post.publish_date.short }}-{{ post.slug }}/">{{ post.title }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h2>Derniers Liens partagés</h2>
+
+    <p>Les derniers liens partagés sont accessibles également via <a href="/liens/feed.xml">RSS</a>.</p>
+
+    <ul class="homepage-link-list">
+        {% for link in (all_links | sort(attribute='publish_date.original', reverse=True))[:10] %}
+            {% if not link.draft %}
+                <li>
+                    <span>{{ link.publish_date.long }}</span>
+                    <a href="/liens/{{ link.publish_date.short }}-{{ link.slug }}/">{{ link.title }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 {% endblock content %}

@@ -29,7 +29,7 @@ class Blog(Factory):
         }
         template_name = "blog/list.j2"
         filename = "blog/index.html"
-        
+
         print(f"Writing blog post list: {filename}")
         write_file(data=data, template_name=template_name, filename=filename)
 
@@ -53,7 +53,7 @@ class Blog(Factory):
         data = {"posts": self.posts}
         template_name = "blog/feed.xml"
         filename = "blog/feed.xml"
-        
+
         print(f"Writing blog RSS feed: {filename}")
         write_file(
             data=data, template_name=template_name, filename=filename, filetype="xml"
@@ -63,7 +63,7 @@ class Blog(Factory):
         data = {"posts": self.posts}
         template_name = "blog/sitemap.xml"
         filename = "blog/sitemap.xml"
-        
+
         print(f"Writing blog sitemap: {filename}")
         write_file(data, template_name, filename, filetype="xml")
 
@@ -149,3 +149,5 @@ def process_blog_data(blog_path):
 
     for category in blog.categories:
         blog.write_post_list_by_category_file(category=category)
+
+    return blog
