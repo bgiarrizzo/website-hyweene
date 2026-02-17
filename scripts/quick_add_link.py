@@ -59,12 +59,6 @@ def get_link_comment() -> str:
     return input_comment
 
 
-def get_link_tags() -> list[str]:
-    input_tags = input("Tags (separate with commas ',' or ', ') : ")
-    tag_list = input_tags.split(",")
-    return [tag.strip() for tag in tag_list]
-
-
 def craft_link_filename(date: str, slug: str) -> str:
     return f"{date}-{slug}.md"
 
@@ -107,7 +101,6 @@ if __name__ == "__main__":
         slug=link_data["slug"],
     )
     link_data["comment"] = get_link_comment()
-    link_data["tags"] = get_link_tags()
     link_data["date"].pop("now")
 
     generate_markdown_file(link_data=link_data)
