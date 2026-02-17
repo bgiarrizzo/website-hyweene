@@ -5,24 +5,19 @@ description = "A static site generator for hyweene.fr"
 readme = "README.md"
 requires-python = "==3.12"
 dependencies = [
-    "jinja2",
-    "pyyaml",
-    "markdown",
-    "pydantic",
-    "python-slugify",
-    "pydantic-settings",
-    "lxml",
-    "prettierfier",
-    "defusedxml",
-    "beautifulsoup4",
-    "markdown2[all]",
-    "slugify>=0.0.1",
-    "requests>=2.32.5",
-    "readtime>=3.0.0",
-]
-
-[dependency-groups]
-dev = [
-    "html5validator",
+    "beautifulsoup4>=4.13.5",
+    "defusedxml>=0.7.1",
+    "html5validator>=0.4.2",
+    "jinja2>=3.1.6",
+    "lxml>=6.0.2",
+    "markdown2[all]>=2.5.4",
+    "prettierfier>=1.0.3",
+    "pydantic-settings>=2.10.1",
+    "pydantic>=2.11.9",
     "pyment>=0.3.3",
+    "python-slugify>=8.0.4",
+    "pyyaml>=6.0.2",
+    "readtime>=3.0.0",
+    "requests>=2.32.5",
+    "ruff>=0.15.1",
 ]
