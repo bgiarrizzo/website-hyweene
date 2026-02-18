@@ -1,6 +1,5 @@
 #!/bin/bash
 
-BUILD_PATH=$(pwd)/build
 BIN_FOLDER=$(pwd)/bin/smolweb-validator
 REPORTS_FOLDER=$(pwd)/reports/smolweb
 FIND_CMD=$(command -v gfind || command -v find)
