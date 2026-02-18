@@ -8,9 +8,11 @@ from utils.date import date_older_than_six_months
 
 
 def write_page(filename, content):
-    makedirs(path.dirname(f"{settings.BUILD_PATH}/{filename}"), exist_ok=True)
+    makedirs(path.dirname(f"{settings.RELEASE_PATH}/{filename}"), exist_ok=True)
 
-    with open(f"{settings.BUILD_PATH}/{filename}", mode="w", encoding="utf-8") as page:
+    with open(
+        f"{settings.RELEASE_PATH}/{filename}", mode="w", encoding="utf-8"
+    ) as page:
         page.write(content)
 
 

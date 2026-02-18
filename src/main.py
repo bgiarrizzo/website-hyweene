@@ -1,5 +1,4 @@
 import locale
-import shutil
 
 from config import settings
 from generators.homepage import build_homepage
@@ -10,14 +9,16 @@ from generators.learn import process_learn_data
 from generators.resume import process_resume_data
 from generators.robotstxt import build_robots_txt
 from generators.sitemapxml import build_sitemap_index_xml
+from release import release_site
 from utils.collectors import collect_media_files, collect_static_files
 
 locale.setlocale(locale.LC_ALL, settings.LOCALE)
 
 if __name__ == "__main__":
     print("#", "-" * 100)
-    print("Cleaning build folder ...")
-    shutil.rmtree(settings.BUILD_PATH, ignore_errors=True)
+
+    print("#", "-" * 90)
+    print("Collecting media and static files ...")
 
     collect_media_files()
     collect_static_files()
@@ -38,6 +39,11 @@ if __name__ == "__main__":
 
     build_sitemap_index_xml(settings.BASE_URL)
 
-    print("#", "-" * 90)
     print("Build completed successfully!")
+    print("#", "-" * 90)
+
+    print("Releasing site ...")
+    release_site()
+    print("Site released successfully!")
+
     print("#", "-" * 100)

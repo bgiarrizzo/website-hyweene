@@ -45,7 +45,7 @@ def collect_static_files():
     collect_files(
         file_type="static",
         source=f"{settings.STATIC_PATH}",
-        destination=f"{settings.BUILD_PATH}/{settings.STATIC_PATH}",
+        destination=f"{settings.RELEASE_PATH}/{settings.STATIC_PATH}",
     )
 
 
@@ -59,5 +59,5 @@ def collect_media_files():
     collect_files(
         file_type="media",
         source=f"{settings.MEDIA_PATH}",
-        destination=f"{settings.BUILD_PATH}/{settings.MEDIA_PATH}",
+        destination=f"{settings.RELEASE_PATH}/{settings.MEDIA_PATH}",
     )

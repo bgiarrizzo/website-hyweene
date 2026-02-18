@@ -1,5 +1,7 @@
 import os
 
+from datetime import datetime
+
 from pydantic_settings import BaseSettings
 
 gruvbox = {
@@ -42,7 +44,12 @@ class Settings(BaseSettings):
     LONG_URL: str = f"www.{SHORT_URL}"
     BASE_URL: str = f"{SCHEME}://{LONG_URL}"
 
-    BUILD_PATH: str = "build"
+    RELEASES_PATH: str = "releases"
+    RELEASE_TIMESTAMP: str = datetime.now().strftime("%Y%m%d%H%M%S")
+    RELEASE_PATH: str = f"releases/{RELEASE_TIMESTAMP}"
+
+    CURRENT_RELEASE_PATH: str = "build"
+
     MEDIA_PATH: str = "media"
     STATIC_PATH: str = "static"
 
