@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 
-import json
 import requests
 import sys
 
@@ -75,11 +74,17 @@ def generate_markdown_file(link_data: dict):
         f.write(outputText)
 
 
-def git_commit_and_push(filename: str):
-    import subprocess
+def git_commit_and_push_message(filename: str):
+    message = f"""
+        git add content/links/{filename}
+        git commit -m "add new link - {filename}"
+        git push
+    """
 
-    subprocess.run(["git", "add", f"content/links/{filename}"])
-    subprocess.run(["git", "commit", "-m", f"add new link - {filename}"])
+    print(
+        "\nWhen you are done, run the following commands to commit and push your new link :"
+    )
+    print(f"\n{message}")
 
 
 if __name__ == "__main__":
