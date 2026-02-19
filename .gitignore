@@ -19,7 +19,12 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+buil*
+build
+build/*
+curren*
+current
+current/*
 develop-eggs/
 dist/
 downloads/

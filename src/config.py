@@ -48,7 +48,7 @@ class Settings(BaseSettings):
     RELEASE_TIMESTAMP: str = datetime.now().strftime("%Y%m%d%H%M%S")
     RELEASE_PATH: str = f"releases/{RELEASE_TIMESTAMP}"
 
-    CURRENT_RELEASE_PATH: str = "build"
+    CURRENT_RELEASE_PATH: str = "current"
 
     MEDIA_PATH: str = "media"
     STATIC_PATH: str = "static"

@@ -62,12 +62,12 @@ install_smolwebvalidator: ## Install smolweb-validator
 
 .PHONY: build
 build: ## Build the project
-	${PACKAGER} run $(PY_INTERPRETER) src/main.py
+	. $(VENV_BIN)/activate; $(PY_INTERPRETER) src/main.py
 
 .PHONY: serve
 serve: build ## Run a local server
 	ps -ef | grep '[p]ython -m http.server' | awk '{print $$2}' | xargs -r kill -9
-	${PACKAGER} run $(PY_INTERPRETER) -m http.server 8000 --directory build/ > /dev/null 2>&1 &
+	. $(VENV_BIN)/activate; $(PY_INTERPRETER) -m http.server 8000 --directory build/ > /dev/null 2>&1 &
 
 .PHONY: smolwebvalidator
 smolwebvalidator: install_smolwebvalidator serve ## Validate HTML files in the build directory
