@@ -109,3 +109,5 @@ if __name__ == "__main__":
     link_data["date"].pop("now")
 
     generate_markdown_file(link_data=link_data)
+
+    git_commit_and_push_message(filename=link_data["filename"])
