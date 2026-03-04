@@ -2,6 +2,7 @@ import yaml
 from markdown2 import Markdown
 import re
 
+
 class PrismCodeProcessor:
     def __init__(self):
         self.fence_re = re.compile(r"^```\s*(\w+)?")
@@ -85,12 +86,13 @@ class CustomMarkdown(Markdown):
         text = self.prism_processor.process(text)
         html = super().convert(text)
 
-        if hasattr(self, '_toc'):
+        if hasattr(self, "_toc"):
             self.toc_html = self.toc_to_html_list()
         else:
             self.toc_html = ""
-        
+
         return html
+
 
 markdown_parser = CustomMarkdown(extras=["tables", "toc"])
 
@@ -104,14 +106,14 @@ def convert_markdown_text_to_html(markdown_content):
 def parse_yaml_header_and_markdown_body_in_file(markdown_file_path):
     with open(markdown_file_path, mode="r", encoding="utf-8") as markdown_file:
         content = markdown_file.read()
-        
-        pattern = r'^---\s*\n(.*?)\n---\s*\n'
+
+        pattern = r"^---\s*\n(.*?)\n---\s*\n"
         match = re.match(pattern, content, re.DOTALL)
-        
+
         if match:
             yaml_header_str = match.group(1)
             yaml_header = yaml.safe_load(yaml_header_str)
-            
+
             body_start = match.end()
             markdown_body = content[body_start:].strip()
         else:

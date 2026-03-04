@@ -3,11 +3,14 @@ import shutil
 
 from config import settings
 
+
 def create_symlink(src, dst):
     """Create a symbolic link from src to dst."""
+
     try:
         if os.path.islink(dst) or os.path.exists(dst):
             os.remove(dst)
+
         os.symlink(src, dst)
         print(f"Created symlink: {dst} -> {src}")
     except OSError as e:
@@ -39,4 +42,3 @@ def release_site():
 
     # Delete old releases
     cleanup_releases(settings.RELEASES_PATH)
-
