@@ -76,6 +76,7 @@ def generate_markdown_file(link_data: dict):
 
 def git_commit_and_push_message(filename: str):
     message = f"""
+        make build
         git add content/links/{filename}
         git commit -m "add new link - {filename}"
         git push
