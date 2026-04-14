@@ -41,7 +41,7 @@ install_smolwebvalidator: ## Install smolweb-validator
 	fi
 
 .PHONY: build
-build: ## Build the static site with Swift generator
+build: install ## Build the static site with Swift generator
 	@echo "Building Swift generator..."
 	cd $(GENERATOR_FOLDER) && swift build -c release
 	@echo "Generating site..."
@@ -49,7 +49,7 @@ build: ## Build the static site with Swift generator
 	@echo "✓ Site built successfully in build/"
 
 .PHONY: build-debug
-build-debug: ## Build in debug mode (faster compilation, slower execution)
+build-debug: install ## Build in debug mode (faster compilation, slower execution)
 	@echo "Building Swift generator (debug)..."
 	cd $(GENERATOR_FOLDER) && swift build
 	@echo "Generating site..."
