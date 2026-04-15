@@ -1,0 +1,38 @@
+{% extends "main.stencil" %}
+
+{% block title %}
+    <title>{{ link.title }} - Liens - {{ site.name }}</title>
+{% endblock title %}
+
+{% block metaTitle %}
+    <meta name="title" content="{{ link.title }} - Liens - {{ site.name }}">
+{% endblock metaTitle %}
+
+{% block linkCanonical %}
+    <link rel="canonical" href="{{ site.url }}/liens/{{ link.path }}/">
+{% endblock linkCanonical %}
+
+{% block meta_keywords %}
+    <meta name="keywords" content="{{ site.keywords | join:', ' | lowercase }}, liens">
+{% endblock meta_keywords %}
+
+{% block content %}
+    <h1>{{ link.title }}</h1>
+    <p>Publié le {{ link.publish_date.medium }}</p>
+    {% if link.update_date %}
+        {% if link.show_update_date %}
+        <p>Mis à jour le {{ link.update_date.medium }}</p>
+        {% endif %}
+    {% endif %}
+    <p>Lien d'origine : <a href="{{ link.url }}" target="_blank">{{ link.url }}</a></p>
+
+    <hr />
+
+    {{ link.body }}
+
+    {% if link.is_image %}
+        <figure>
+            <img src="{{ link.url }}" width="100%" />
+        </figure>
+    {% endif %}
+{% endblock content %}

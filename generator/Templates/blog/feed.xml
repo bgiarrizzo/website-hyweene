@@ -1,0 +1,37 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="fr">
+  <id>{{ site.url }}/blog/</id>
+  <title>{{ site.short_url }} - Blog</title>
+  <subtitle>{{ site.description }}</subtitle>
+  <link rel="self" type="application/atom+xml" href="{{ site.url }}/blog/feed.xml"></link>
+  <link href="{{ site.url }}/blog/"></link>
+
+  <updated>{{ last_post.publish_date.rfc3339 }}</updated>
+
+  <author>
+    <name>{{ site.author }}</name>
+    <uri>{{ site.url }}</uri>
+  </author>
+
+  {% for post in posts %}
+    {% if not post.draft %}
+      <entry>
+        <id>{{ site.url }}/blog/{{ post.path }}/</id>
+        <title>{{ post.title }}</title>
+        <link rel="alternate" type="text/html" href="{{ site.url }}/blog/{{ post.path }}/"></link>
+        <published>{{ post.publish_date.rfc3339 }}</published>
+        <updated>{{ post.update_date.rfc3339 }}</updated>
+
+        {% if post.summary %}
+          <summary>
+            {{ post.summary }}
+          </summary>
+        {% endif %}
+
+        <content type="html">
+          {{ post.body | e }}
+        </content>
+
+      </entry>
+    {% endif%}
+  {% endfor %}
+</feed>
