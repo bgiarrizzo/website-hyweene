@@ -69,9 +69,9 @@ public struct PrismCodeProcessor {
         if match.numberOfRanges > 1 {
             let langRange = match.range(at: 1)
             if langRange.location != NSNotFound,
-               let range = Range(langRange, in: line) {
-                return String(line[range])
-            }
+                let range = Range(langRange, in: line) {
+                    return String(line[range])
+                }
         }
         
         return nil

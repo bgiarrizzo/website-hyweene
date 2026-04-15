@@ -29,10 +29,11 @@ struct ModelsTests {
         let file = tempDir.appendingPathComponent("2026-01-15-test-post.md")
         try content.write(to: file, atomically: true, encoding: .utf8)
         
+        let post_category = BlogPostCategory(name: "Test")
         let post = try BlogPost(filePath: file.path)
         
         #expect(post.title == "Test Post")
-        #expect(post.category == "Test")
+        #expect(post.category == post_category.name)
         #expect(post.slug == "2026-01-15-test-post")
     }
 
@@ -61,7 +62,7 @@ struct ModelsTests {
         let link = try LinkItem(filePath: file.path)
         
         #expect(link.title == "Test Link")
-        #expect(link.link == "https://example.com")
+        #expect(link.url == "https://example.com")
     }
 
     @Test("Page initializes from valid file")
@@ -95,22 +96,21 @@ struct ModelsTests {
 
     @Test("BlogPostCategory has correct properties")
     func blogPostCategoryProperties() {
-        let category = BlogPostCategory(name: "Swift", count: 5, slug: "swift")
+        let category = BlogPostCategory(name: "Swift")
         
         #expect(category.name == "Swift")
-        #expect(category.count == 5)
         #expect(category.slug == "swift")
     }
 
     @Test("DateFormat toDictionary returns all fields")
     func dateFormatToDictionary() {
         let date = DateFormat(from: "2026-01-15T10:30:00+00:00")
-        let dict = date.toDictionary()
+        let dict = date?.toDictionary()
         
-        #expect(dict["iso8601"] as? String != nil)
-        #expect(dict["year"] as? Int != nil)
-        #expect(dict["month"] as? Int != nil)
-        #expect(dict["day"] as? Int != nil)
+        #expect(dict?["iso8601"] as? String != nil)
+        #expect(dict?["year"] as? Int != nil)
+        #expect(dict?["month"] as? Int != nil)
+        #expect(dict?["day"] as? Int != nil)
     }
 
     @Test("isDateOlderThanSixMonths returns correct result")

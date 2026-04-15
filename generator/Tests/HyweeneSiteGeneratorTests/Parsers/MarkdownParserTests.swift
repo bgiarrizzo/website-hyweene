@@ -27,9 +27,11 @@ struct MarkdownParserTests {
     @Test("Parse markdown headings")
     func parseMarkdownHeadings() throws {
         let parser = MarkdownParser()
-        let markdown = """# H1
-    ## H2
-    ### H3"""
+        let markdown = """
+        # H1
+        ## H2
+        ### H3
+        """
         let html = try parser.parse(markdown)
         
         #expect(html.contains("<h1>"))
@@ -71,7 +73,7 @@ struct MarkdownParserTests {
     func parseMarkdownCodeBlocksWithLanguage() throws {
         let parser = MarkdownParser()
         let markdown = "```swift\nlet x = 1\n```"
-        let html = try parser.parse(markdown)
+        let html = try parser.convertMarkdownToHTML(markdown)
         
         #expect(html.contains("swift") || html.contains("language-swift"))
     }
@@ -79,10 +81,12 @@ struct MarkdownParserTests {
     @Test("Parse markdown lists")
     func parseMarkdownLists() throws {
         let parser = MarkdownParser()
-        let markdown = """- Item 1
-    - Item 2
-    - Item 3"""
-        let html = try parser.parse(markdown)
+        let markdown = """
+        - Item 1
+        - Item 2
+        - Item 3
+        """
+        let html = try parser.convertMarkdownToHTML(markdown)
         
         #expect(html.contains("<ul>") || html.contains("<li>"))
     }
@@ -91,7 +95,7 @@ struct MarkdownParserTests {
     func prismAddsLanguageClass() throws {
         let processor = PrismCodeProcessor()
         let code = "let x = 1"
-        let result = try processor.process(code: code, language: "swift")
+        let result = try processor.process(code: code)
         
         #expect(result.contains("language-swift"))
     }
@@ -100,7 +104,7 @@ struct MarkdownParserTests {
     func prismHandlesEmptyLanguage() throws {
         let processor = PrismCodeProcessor()
         let code = "some code"
-        let result = try processor.process(code: code, language: nil)
+        let result = try processor.process(code: code)
         
         #expect(!result.isEmpty)
     }

@@ -44,8 +44,8 @@ func resumeGeneratorInitialization() {
 func sitemapGeneratorInitialization() {
     let generator = SitemapGenerator()
     
-    // Just verify it initializes without error
-    #expect(generator != nil)
+    // Verify it initializes successfully
+    #expect(type(of: generator) == SitemapGenerator.self)
 }
 
 @Test("HomepageGenerator requires blog and links generators")
@@ -54,7 +54,7 @@ func homepageGeneratorInitialization() {
     let links = LinksGenerator()
     let generator = HomepageGenerator(blog: blog, links: links)
     
-    #expect(generator != nil)
+    #expect(type(of: generator) == HomepageGenerator.self)
 }
 
 @Test("All generators conform to Generator protocol")
