@@ -1,0 +1,55 @@
+{% extends "main.stencil" %}
+
+{% block title %}
+    <title>Liens - {{ site.name }}</title>
+{% endblock title %}
+
+{% block metaTitle %}
+    <meta name="title" content="Liens - {{ site.name }}">
+{% endblock metaTitle %}
+
+{% block linkCanonical %}
+    <link rel="canonical" href="{{ site.url }}/liens/">
+{% endblock linkCanonical %}
+
+{% block specific_css %}
+    .link-list { list-style-type: none; padding: 0; margin: 0; }
+    .link-list li { display: flex; align-items: center; flex-direction: row-reverse; justify-content: space-between; border-bottom: 1px solid; }
+    .link-list li:first-child { border-top: 1px solid; }
+    .link-list li a { font-weight: bold; }
+    .link-list span { min-width: 175px; text-align: right; }
+    .link-list-header { border-bottom: 0px; margin: 1em 0;}
+
+    @media (max-width: 768px) {
+        .link-list li { flex-direction: column; align-items: flex-start; padding: 0.5em 0;}
+        .link-list li a { text-align: left; width: 100%; margin: 0; padding: 0; font-size: 0.9em; font-weight: bold; }
+        .link-list li span { text-align: left; width: 100%; font-size: 0.7em; }
+    }
+{% endblock specific_css %}
+
+{% block content %}
+    <h1>Liens</h1>
+
+    <p>Les derniers liens partagés sont accessibles également via <a href="/liens/feed.xml">RSS</a>.</p>
+
+    {% for year_group in links_by_year %}
+
+        <h2 class="link-list-header">{{ year_group.year }}</h2>
+
+        {% for month_group in year_group.months %}
+
+        <h3 class="link-list-header">{{ month_group.month_name }}</h3>
+
+            <ul class="link-list">
+                {% for link in month_group.links %}
+                    <li>
+                        <span>{{ link.publish_date.long }}</span>
+                        <a href="/liens/{{ link.publish_date.short }}-{{ link.slug }}">{{ link.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% endfor %}
+
+    {% endfor %}
+{% endblock content %}
