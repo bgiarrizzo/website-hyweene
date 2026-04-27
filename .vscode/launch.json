@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:website-hyweene}/generator",
+            "name": "Debug HyweeneSiteGeneratorBin (generator)",
+            "target": "HyweeneSiteGeneratorBin",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug HyweeneSiteGeneratorBin (generator)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:website-hyweene}/generator",
+            "name": "Release HyweeneSiteGeneratorBin (generator)",
+            "target": "HyweeneSiteGeneratorBin",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release HyweeneSiteGeneratorBin (generator)"
+        }
+    ]
+}
