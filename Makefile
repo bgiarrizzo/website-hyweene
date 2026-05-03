@@ -46,7 +46,7 @@ build: install ## Build the static site with Swift generator
 	cd $(GENERATOR_FOLDER) && swift build -c release
 	@echo "Generating site..."
 	$(GENERATOR_FOLDER)/.build/release/$(PROJECT_BINARY_NAME)
-	@echo "✓ Site built successfully in build/"
+	@echo "✓ Site built successfully in current/"
 
 .PHONY: build-debug
 build-debug: install ## Build in debug mode (faster compilation, slower execution)
@@ -54,7 +54,7 @@ build-debug: install ## Build in debug mode (faster compilation, slower executio
 	cd $(GENERATOR_FOLDER) && swift build
 	@echo "Generating site..."
 	$(GENERATOR_FOLDER)/.build/debug/$(PROJECT_BINARY_NAME)
-	@echo "✓ Site built successfully in build/"
+	@echo "✓ Site built successfully in current/"
 
 .PHONY: build-linux
 build-linux: ## Build and test on Linux (requires Docker/Podman)
@@ -63,7 +63,7 @@ build-linux: ## Build and test on Linux (requires Docker/Podman)
 	$$CONTAINER_ENGINE run --rm \
 		-v "$(PROJECT_FOLDER)/$(GENERATOR_FOLDER):/workspace/$(GENERATOR_FOLDER):ro" \
 		-v "$(PROJECT_FOLDER)/$(SITE_CONTENT_FOLDER):/workspace/$(SITE_CONTENT_FOLDER):ro" \
-		-v "$(PROJECT_FOLDER)/releases:/workspace/releases" \
+		-v "$(PROJECT_FOLDER)/current:/workspace/current" \
 		-w /workspace \
 		swift:5.10 \
 		bash -c "cd $(GENERATOR_FOLDER) && swift build -c release && cd .. && ./$(GENERATOR_FOLDER)/.build/release/$(PROJECT_NAME)"

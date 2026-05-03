@@ -22,7 +22,7 @@ Toutes les propriétés de configuration peuvent être surchargées via des vari
 | Variable | Défaut | Description |
 |----------|--------|-------------|
 | `SITE_RELEASES_PATH` | `releases` | Dossier des releases |
-| `SITE_CURRENT_RELEASE_PATH` | `build` | Nom du symlink vers la release actuelle |
+| `SITE_CURRENT_RELEASE_PATH` | `current` | Nom du symlink vers la release actuelle |
 | `SITE_CONTENT_PATH` | `content` | Dossier racine du contenu |
 | `SITE_MEDIA_PATH` | `content/media` | Dossier des médias |
 | `SITE_STATIC_PATH` | `content/static` | Dossier des fichiers statiques |

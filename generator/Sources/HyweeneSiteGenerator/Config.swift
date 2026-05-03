@@ -61,7 +61,7 @@ public struct Config {
     public static let releaseTimestamp = DateFormatter.timestamp.string(from: Date())
     public static let releasesPath = env("SITE_RELEASES_PATH", default: "releases")
     public static let releasePath = "\(releasesPath)/\(releaseTimestamp)"
-    public static let currentReleasePath = env("SITE_CURRENT_RELEASE_PATH", default: "build")
+    public static let currentReleasePath = env("SITE_CURRENT_RELEASE_PATH", default: "current")
     
     public static let siteContentPath = env("SITE_CONTENT_PATH", default: "content")
     public static let mediaPath = env("SITE_MEDIA_PATH", default: "\(siteContentPath)/media")

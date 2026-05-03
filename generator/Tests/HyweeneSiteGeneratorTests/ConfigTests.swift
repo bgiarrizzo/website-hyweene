@@ -79,7 +79,7 @@ func gruvboxColorsAreDefined() {
 func configReleasePathsAreStructured() {
     #expect(Config.releasesPath == "releases")
     #expect(Config.releasePath.starts(with: "releases/"))
-    #expect(Config.currentReleasePath == "build")
+    #expect(Config.currentReleasePath == "current")
     #expect(!Config.releaseTimestamp.isEmpty)
 }
 
