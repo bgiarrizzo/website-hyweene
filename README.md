@@ -1,124 +1,79 @@
-# SiteGenerator
+# Hyweene Static Site Generator
 
-Générateur de site statique en Swift pour Hack With Hyweene.
+Générateur de site statique en Swift pour hyweene.fr.
+
+## Commandes CLI
+
+Le binaire `hyweene` expose maintenant quatre commandes explicites :
+
+```bash
+hyweene build
+hyweene dev --host 0.0.0.0 --port 1234
+hyweene quick-add-link https://example.com
+hyweene quick-add-link https://example.com --comment "Great read"
+hyweene check-dead-links --path ./current
+```
+
+Comportement :
+- `build` : génère le site une fois, met à jour le symlink `current`, et nettoie les anciennes releases.
+- `dev` : lance un build initial, démarre un serveur HTTP local, puis reconstruit automatiquement quand un fichier change.
+- `quick-add-link` : récupère le titre d'une URL puis crée automatiquement un fichier Markdown dans `content/text/links`.
+    - mode interactif: demande un commentaire
+    - mode non interactif: `--comment "..."`
+- `check-dead-links` : analyse les fichiers HTML générés et liste les liens externes en erreur 404 (JSON en sortie).
 
 ## Fonctionnalités
 
-- ✅ Parsing Markdown avec support Prism.js pour le code
-- ✅ Templates Stencil (compatible Jinja2)  
-- ✅ Génération multi-types : blog, liens, pages, CV, modules  d'apprentissage
-- ✅ Sitemap XML automatique
-- ✅ RSS feeds
-- ✅ Cross-platform (macOS + Linux)
-- ✅ Swift 6 avec strict concurrency
+- Parsing Markdown + frontmatter YAML
+- Templates Stencil
+- Génération des sections blog, liens, pages, CV et apprentissage
+- RSS + sitemaps
+- Build parallèle :
+    - générateurs indépendants en parallèle
+    - posts blog en parallèle
+    - liens en parallèle
+    - modules/pages d'apprentissage en parallèle
+    - pages statiques en parallèle
+- Mode développement avec watch + serveur local
 
-## Installation
+## Utilisation via mise
 
 ```bash
-# Installer les dépendances
-make install
-
-# Compiler et générer le site
-make build
-
-# Lancer les tests de validation
-make test
+mise run install
+mise run setup
+mise run build
+mise run dev
+mise run test
 ```
 
-## Architecture
+## Utilisation directe
 
+```bash
+cd generator
+swift build
+
+# Build unique
+./.build/debug/hyweene build
+
+# Mode dev
+./.build/debug/hyweene dev --host 0.0.0.0 --port 1234
+
+# Ajouter un lien rapidement
+./.build/debug/hyweene quick-add-link https://example.com
+./.build/debug/hyweene quick-add-link https://example.com --comment "Great read"
+
+# Vérifier les liens morts
+./.build/debug/hyweene check-dead-links --path ./current
 ```
-Sources/SiteGenerator/
-├── Models/          # BlogPost, LinkItem, Page, Resume, LearnModule
-├── Generators/      # BlogGenerator, LinksGenerator, etc.
-├── Templates/       # TemplateEngine (Stencil)
-├── Parsers/         # MarkdownParser, PrismCodeProcessor
-├── Utils/           # DateFormat, String extensions
-└── main.swift       # Point d'entrée
-
-Tests/
-├── validate.sh      # Script de validation end-to-end
-└── README.md        # Documentation des tests
-```
-
-## Dépendances
-
-- **Ink** : Parsing Markdown
-- **Stencil** : Moteur de templates
-- **Yams** : Parsing YAML (frontmatter)
 
 ## Tests
 
-### Framework
-
-Ce projet utilise **Swift Testing**, le framework de tests moderne inclus dans Swift 6.
-
-Architecture des tests :
-```
-Tests/SiteGenerator_Tests/
-├── Utils/
-│   ├── DateFormatTests.swift      (15 tests)
-│   └── StringExtensionsTests.swift (20 tests)
-├── Parsers/
-│   └── MarkdownParserTests.swift   (13 tests)
-└── Templates/
-    └── TemplateEngineTests.swift   (5 tests)
-```
-
-### Utilisation
-
 ```bash
-# Via Makefile (recommandé)
-make test                # Tests unitaires
-make test-verbose        # Tests avec détails
-
-# Directement avec Swift
 cd generator
 swift test
-swift test --verbose
-swift test --filter DateFormat    # Tests spécifiques
 ```
-
-### Couverture des tests
-
-#### Utils (35 tests)
-
-**DateFormat (15 tests)**
-- Parsing ISO8601 : avec/sans timezone, différents formats
-- Support Date objects (important pour Yams YAML parser)
-- Formats de sortie : short, medium, long, RFC3339
-- Extensions Date : year(), month()
-- Validation : isDateOlderThanSixMonths()
-
-**StringExtensions (20 tests)**
-- `slugified()` : accents, caractères spéciaux, espaces multiples
-- Exemples réels : "Git : Comment je squash..." → "git-comment-je-squash..."
-- `estimatedReadingTime()` : calcul basé sur nombre de mots
-- `strippingHTML()` : suppression tags HTML
-
-#### Parsers (13 tests)
-
-**MarkdownParser**
-- YAML frontmatter : valid, empty, multiline, Date vs String
-- Markdown → HTML : headings, lists, links, formatting
-- Code blocks : avec/sans langage, Prism.js classes
-
-#### Templates (5 tests)
-
-**TemplateEngine**
-- Rendu variables : `{{ name }}`
-- Boucles : `{% for item in items %}`
-- Conditions : `{% if show %}`
-
-### Bonnes pratiques
-
-- Tests utilisent `@Test("Description")` pour clarté
-- Fixtures temporaires (FileManager.temporaryDirectory) pour I/O
-- Assertions avec `#expect()` (syntaxe moderne Swift Testing)
-- Tests couvrent les cas limites et le comportement réel de l'implémentation
 
 ## Compatibilité
 
-- **Swift** : 6.0+
-- **macOS** : 13+ (Ventura)
-- **Linux** : via Docker (swift:5.10 image)
+- Swift 6+
+- macOS 15+

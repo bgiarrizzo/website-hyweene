@@ -35,12 +35,12 @@ public struct Gruvbox {
 // MARK: - Site Configuration
 public struct Config {
     // MARK: - Environment Helper
-    
+
     /// Get a string value from environment or use default
     private static func env(_ key: String, default defaultValue: String) -> String {
         ProcessInfo.processInfo.environment[key] ?? defaultValue
     }
-    
+
     /// Get an array of strings from environment (comma-separated) or use default
     private static func envArray(_ key: String, default defaultValue: [String]) -> [String] {
         guard let value = ProcessInfo.processInfo.environment[key], !value.isEmpty else {
@@ -48,64 +48,99 @@ public struct Config {
         }
         return value.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
     }
-    
+
+    /// Resolve repository root from the current working directory.
+    ///
+    /// Supports running the binary from repository root or from the `generator` directory.
+    private static func resolveProjectRootPath() -> String {
+        let fm = FileManager.default
+
+        if fm.fileExists(atPath: "content") && fm.fileExists(atPath: "generator") {
+            return "."
+        }
+
+        if fm.fileExists(atPath: "../content") {
+            return ".."
+        }
+
+        return "."
+    }
+
+    private static func defaultPath(_ relativePath: String) -> String {
+        let root = projectRootPath
+        if root == "." {
+            return relativePath
+        }
+        return "\(root)/\(relativePath)"
+    }
+
     // MARK: - URL Configuration
-    
+
     public static let scheme = env("SITE_SCHEME", default: "https")
     public static let shortURL = env("SITE_SHORT_URL", default: "hyweene.fr")
     public static let longURL = env("SITE_LONG_URL", default: "www.\(shortURL)")
     public static let baseURL = env("SITE_BASE_URL", default: "\(scheme)://\(longURL)")
-    
+
     // MARK: - Paths Configuration
-    
+
+    public static let projectRootPath = resolveProjectRootPath()
+
     public static let releaseTimestamp = DateFormatter.timestamp.string(from: Date())
-    public static let releasesPath = env("SITE_RELEASES_PATH", default: "releases")
+    public static let releasesPath = env("SITE_RELEASES_PATH", default: defaultPath("releases"))
     public static let releasePath = "\(releasesPath)/\(releaseTimestamp)"
-    public static let currentReleasePath = env("SITE_CURRENT_RELEASE_PATH", default: "current")
-    
-    public static let siteContentPath = env("SITE_CONTENT_PATH", default: "content")
+    public static let currentReleasePath = env(
+        "SITE_CURRENT_RELEASE_PATH", default: defaultPath("current"))
+
+    public static let siteContentPath = env("SITE_CONTENT_PATH", default: defaultPath("content"))
     public static let mediaPath = env("SITE_MEDIA_PATH", default: "\(siteContentPath)/media")
     public static let staticPath = env("SITE_STATIC_PATH", default: "\(siteContentPath)/static")
-    
-    public static let templatePath = env("SITE_TEMPLATE_PATH", default: "generator/Templates")
-    
-    public static let contentPath = env("SITE_TEXT_CONTENT_PATH", default: "\(siteContentPath)/text")
+
+    public static let templatePath = env(
+        "SITE_TEMPLATE_PATH", default: defaultPath("generator/Templates"))
+
+    public static let contentPath = env(
+        "SITE_TEXT_CONTENT_PATH", default: "\(siteContentPath)/text")
     public static let blogPath = env("SITE_BLOG_PATH", default: "\(contentPath)/blog")
     public static let linksPath = env("SITE_LINKS_PATH", default: "\(contentPath)/links")
     public static let pagesPath = env("SITE_PAGES_PATH", default: "\(contentPath)/pages")
     public static let resumePath = env("SITE_RESUME_PATH", default: "\(contentPath)/resume")
     public static let learnPath = env("SITE_LEARN_PATH", default: "\(contentPath)/learn")
-    
+
     // MARK: - Author Information
-    
+
     public static let name = env("SITE_AUTHOR_NAME", default: "Bruno Giarrizzo")
     public static let author = env("SITE_AUTHOR_FULL", default: "Bruno 'Hyweene' Giarrizzo")
-    public static let githubLink = env("SITE_GITHUB_LINK", default: "https://github.com/bgiarrizzo/")
-    public static let linkedInLink = env("SITE_LINKEDIN_LINK", default: "https://www.linkedin.com/in/bruno-giarrizzo/")
-    
+    public static let githubLink = env(
+        "SITE_GITHUB_LINK", default: "https://github.com/bgiarrizzo/")
+    public static let linkedInLink = env(
+        "SITE_LINKEDIN_LINK", default: "https://www.linkedin.com/in/bruno-giarrizzo/")
+
     // MARK: - Site Metadata
-    
-    public static let description = env("SITE_DESCRIPTION", default: "Linuxien, Developpeur Python, Swift et DevOps")
-    public static let keywords = envArray("SITE_KEYWORDS", default: [
-        "Bruno",
-        "Giarrizzo",
-        "Hyweene",
-        "Bruno Giarrizzo",
-        "Developpeur",
-        "Linuxien",
-        "DevOps",
-        "Ethical Hacker",
-        "Python",
-        "Swift",
-        "FastAPI",
-        "Kubernetes",
-        "Terraform",
-        "Helm",
-        "Docker"
-    ])
+
+    public static let description = env(
+        "SITE_DESCRIPTION", default: "Linuxien, Developpeur Python, Swift et DevOps")
+    public static let keywords = envArray(
+        "SITE_KEYWORDS",
+        default: [
+            "Bruno",
+            "Giarrizzo",
+            "Hyweene",
+            "Bruno Giarrizzo",
+            "Developpeur",
+            "Linuxien",
+            "DevOps",
+            "Ethical Hacker",
+            "Python",
+            "Swift",
+            "FastAPI",
+            "Kubernetes",
+            "Terraform",
+            "Helm",
+            "Docker",
+        ])
     public static let language = env("SITE_LANGUAGE", default: "fr-FR")
     public static let locale = env("SITE_LOCALE", default: "fr_FR.UTF-8")
-    
+
     // MARK: - Color Theme (Gruvbox)
     struct Colors {
         public static let blockquoteBackgroundColor = Gruvbox.bg1
@@ -129,7 +164,7 @@ public struct Config {
         public static let microblogPostBorderColor = Gruvbox.fg3
         public static let microblogListHeaderBorderColor = Gruvbox.fg2
         public static let microblogPostFooterColor = Gruvbox.fg4
-        
+
         // Convert to dictionary for template engine
         static func toDictionary() -> [String: String] {
             return [
@@ -153,11 +188,11 @@ public struct Config {
                 "heading_h6_font_color": headingH6FontColor,
                 "microblog_post_border_color": microblogPostBorderColor,
                 "microblog_list_header_border_color": microblogListHeaderBorderColor,
-                "microblog_post_footer_color": microblogPostFooterColor
+                "microblog_post_footer_color": microblogPostFooterColor,
             ]
         }
     }
-    
+
     // MARK: - Template Context
     /// Returns the site context dictionary for templates
     static func siteContext() -> [String: Any] {
@@ -171,7 +206,7 @@ public struct Config {
             "description": description,
             "keywords": keywords,
             "language": language,
-            "colors": Colors.toDictionary()
+            "colors": Colors.toDictionary(),
         ]
     }
 }

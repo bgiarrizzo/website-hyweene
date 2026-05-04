@@ -22,8 +22,8 @@ let package = Package(
         .package(url: "https://github.com/stencilproject/Stencil.git", from: "0.15.1"),
         // YAML parsing
         .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
-        // Swift Testing framework
-        .package(url: "https://github.com/apple/swift-testing.git", from: "0.10.0"),
+        // Testing framework fallback for environments lacking toolchain-integrated Testing internals
+        .package(url: "https://github.com/swiftlang/swift-testing.git", from: "0.6.0"),
     ],
     targets: [
         // Library containing all the logic (testable)
@@ -35,9 +35,6 @@ let package = Package(
                 .product(name: "Yams", package: "Yams"),
             ],
             path: "Sources/HyweeneSiteGenerator",
-            exclude: [
-                "Main.swift"  // Exclude main.swift from the library target
-            ],
         ),
         // Executable target for the command-line tool
         .executableTarget(
@@ -45,8 +42,7 @@ let package = Package(
             dependencies: [
                 .target(name: "HyweeneSiteGenerator")
             ],
-            path: "Sources/HyweeneSiteGenerator",
-            sources: ["Main.swift"]
+            path: "Sources/hyweene"
         ),
         // Tests, calls the library code
         .testTarget(

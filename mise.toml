@@ -1,0 +1,42 @@
+[tasks.help]
+description = "List available project tasks"
+run = "mise tasks ls"
+
+[tasks.install]
+description = "Install Swift dependencies"
+run = "cd generator && swift package resolve && swift build -c release && cp .build/release/hyweene ~/.local/bin/"
+
+[tasks.build]
+description = "Build the static site once"
+depends = ["install"]
+run = "hyweene build"
+
+[tasks.dev]
+description = "Run development mode (watch + local server)"
+depends = ["install"]
+run = "hyweene dev --host 0.0.0.0 --port 1234"
+
+[tasks.test]
+description = "Run unit tests"
+run = "cd generator && swift test"
+
+[tasks.serve]
+description = "Serve the generated site on localhost:8000"
+depends = ["build"]
+run = "hyweene serve --host localhost --port 8000"
+
+[tasks.quick_add_link]
+description = "Quick-add a curated link from URL env var (URL=...)"
+depends = ["install"]
+run = '''
+if [ -z "${URL:-}" ]; then
+  echo "Usage: URL=https://example.com mise run quick_add_link"
+  exit 1
+fi
+
+hyweene quick-add-link "$URL"
+'''
+
+[tools]
+swiftformat = { version = "latest", no_app = "true", rename_exe = "swiftformat" }
+swiftlint = "latest"

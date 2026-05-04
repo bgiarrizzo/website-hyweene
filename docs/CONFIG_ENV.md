@@ -67,7 +67,7 @@ Puis sourcez le fichier avant de lancer le générateur :
 
 ```bash
 export $(cat .env | xargs)
-swift run hyweene
+swift run hyweene build
 ```
 
 ### 2. Via export direct
@@ -76,29 +76,22 @@ swift run hyweene
 export SITE_AUTHOR_NAME="Mon Nom"
 export SITE_SHORT_URL="monsite.com"
 export SITE_KEYWORDS="Mot1,Mot2,Mot3"
-swift run hyweene
+swift run hyweene build
 ```
 
 ### 3. Via commande en une ligne
 
 ```bash
-SITE_AUTHOR_NAME="Mon Nom" swift run hyweene
+SITE_AUTHOR_NAME="Mon Nom" swift run hyweene build
 ```
 
-### 4. Via Make
+### 4. Via mise
 
-Ajoutez dans votre Makefile :
+Utilisez les tâches `mise` avec des variables d'environnement inline :
 
-```makefile
-.PHONY: build-dev
-build-dev:
-	@export SITE_BASE_URL="http://localhost:8000" && \
-	swift run hyweene
-
-.PHONY: build-prod
-build-prod:
-	@export SITE_BASE_URL="https://www.hyweene.fr" && \
-	swift run hyweene
+```bash
+SITE_BASE_URL="http://localhost:8000" mise run build
+SITE_BASE_URL="https://www.hyweene.fr" mise run build
 ```
 
 ## Format des Valeurs
@@ -135,7 +128,10 @@ export SITE_AUTHOR_NAME="Dev Test"
 export SITE_KEYWORDS="Test,Dev,Local"
 
 # Génération du site
-swift run hyweene
+swift run hyweene build
+
+# Mode développement
+swift run hyweene dev --host 0.0.0.0 --port 1234
 ```
 
 ## Notes

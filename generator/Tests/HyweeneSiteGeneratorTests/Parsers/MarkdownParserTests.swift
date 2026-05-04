@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import HyweeneSiteGenerator
 
 // MARK: - Markdown Parser Tests
@@ -8,8 +9,8 @@ struct MarkdownParserTests {
     @Test("Parse empty markdown")
     func parseEmptyMarkdown() throws {
         let parser = MarkdownParser()
-        let result = try parser.parse("")
-        
+        let result = parser.convertMarkdownToHTML("")
+
         #expect(result.isEmpty)
     }
 
@@ -17,8 +18,8 @@ struct MarkdownParserTests {
     func parseMarkdownParagraph() throws {
         let parser = MarkdownParser()
         let markdown = "This is a paragraph."
-        let html = try parser.parse(markdown)
-        
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("<p>"))
         #expect(html.contains("paragraph"))
         #expect(html.contains("</p>"))
@@ -28,12 +29,12 @@ struct MarkdownParserTests {
     func parseMarkdownHeadings() throws {
         let parser = MarkdownParser()
         let markdown = """
-        # H1
-        ## H2
-        ### H3
-        """
-        let html = try parser.parse(markdown)
-        
+            # H1
+            ## H2
+            ### H3
+            """
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("<h1>"))
         #expect(html.contains("<h2>"))
         #expect(html.contains("<h3>"))
@@ -43,8 +44,8 @@ struct MarkdownParserTests {
     func parseMarkdownFormatting() throws {
         let parser = MarkdownParser()
         let markdown = "**bold** and *italic*"
-        let html = try parser.parse(markdown)
-        
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("<strong>") || html.contains("<b>"))
         #expect(html.contains("<em>") || html.contains("<i>"))
     }
@@ -53,8 +54,8 @@ struct MarkdownParserTests {
     func parseMarkdownLinks() throws {
         let parser = MarkdownParser()
         let markdown = "[Link text](https://example.com)"
-        let html = try parser.parse(markdown)
-        
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("<a"))
         #expect(html.contains("href"))
         #expect(html.contains("example.com"))
@@ -64,8 +65,8 @@ struct MarkdownParserTests {
     func parseMarkdownCodeBlocks() throws {
         let parser = MarkdownParser()
         let markdown = "```\ncode here\n```"
-        let html = try parser.parse(markdown)
-        
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("<code>") || html.contains("<pre>"))
     }
 
@@ -73,8 +74,8 @@ struct MarkdownParserTests {
     func parseMarkdownCodeBlocksWithLanguage() throws {
         let parser = MarkdownParser()
         let markdown = "```swift\nlet x = 1\n```"
-        let html = try parser.convertMarkdownToHTML(markdown)
-        
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("swift") || html.contains("language-swift"))
     }
 
@@ -82,21 +83,21 @@ struct MarkdownParserTests {
     func parseMarkdownLists() throws {
         let parser = MarkdownParser()
         let markdown = """
-        - Item 1
-        - Item 2
-        - Item 3
-        """
-        let html = try parser.convertMarkdownToHTML(markdown)
-        
+            - Item 1
+            - Item 2
+            - Item 3
+            """
+        let html = parser.convertMarkdownToHTML(markdown)
+
         #expect(html.contains("<ul>") || html.contains("<li>"))
     }
 
     @Test("Prism code processor adds language class")
     func prismAddsLanguageClass() throws {
         let processor = PrismCodeProcessor()
-        let code = "let x = 1"
-        let result = try processor.process(code: code)
-        
+        let code = "```swift\nlet x = 1\n```"
+        let result = processor.process(code)
+
         #expect(result.contains("language-swift"))
     }
 
@@ -104,8 +105,8 @@ struct MarkdownParserTests {
     func prismHandlesEmptyLanguage() throws {
         let processor = PrismCodeProcessor()
         let code = "some code"
-        let result = try processor.process(code: code)
-        
+        let result = processor.process(code)
+
         #expect(!result.isEmpty)
     }
 }
