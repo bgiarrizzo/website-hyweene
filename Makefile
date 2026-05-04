@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-PROJECT_BINARY_NAME := HyweeneSiteGeneratorBin
+PROJECT_BINARY_NAME := hyweene
 PROJECT_FOLDER := $(shell pwd)
 BIN_FOLDER := bin
 BUILD_FOLDER := build

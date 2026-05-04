@@ -13,7 +13,7 @@ let package = Package(
         .library(
             name: "HyweeneSiteGenerator",
             targets: ["HyweeneSiteGenerator"]
-        ),
+        )
     ],
     dependencies: [
         // Markdown processing
@@ -36,17 +36,17 @@ let package = Package(
             ],
             path: "Sources/HyweeneSiteGenerator",
             exclude: [
-                "HyweeneSiteGenerator.swift" // Exclude main.swift from the library target
+                "Main.swift"  // Exclude main.swift from the library target
             ],
         ),
         // Executable target for the command-line tool
         .executableTarget(
-            name: "HyweeneSiteGeneratorBin",
+            name: "hyweene",
             dependencies: [
                 .target(name: "HyweeneSiteGenerator")
             ],
             path: "Sources/HyweeneSiteGenerator",
-            sources: ["HyweeneSiteGenerator.swift"]
+            sources: ["Main.swift"]
         ),
         // Tests, calls the library code
         .testTarget(
