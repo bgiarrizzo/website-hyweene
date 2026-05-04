@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
+
 /// Errors for link management runtime commands.
 public enum LinkToolsRuntimeError: LocalizedError {
     case invalidURL(String)

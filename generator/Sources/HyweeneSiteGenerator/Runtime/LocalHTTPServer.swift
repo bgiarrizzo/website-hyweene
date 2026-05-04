@@ -23,7 +23,6 @@ public final class LocalHTTPServer {
     #else
         private var fallbackSocketFD: Int32 = -1
         private var fallbackQueue: DispatchQueue?
-        private var isFallbackRunning = false
     #endif
 
     /// Create a local static HTTP server.
@@ -127,14 +126,13 @@ public final class LocalHTTPServer {
             }
 
             fallbackSocketFD = serverFD
-            isFallbackRunning = true
 
             let queue = DispatchQueue(label: "local-http-server-fallback", qos: .userInitiated)
             fallbackQueue = queue
 
             let rootPath = self.rootPath
-            queue.async { [weak self] in
-                self?.acceptLoop(serverFD: serverFD, rootPath: rootPath)
+            queue.async {
+                Self.acceptLoop(serverFD: serverFD, rootPath: rootPath)
             }
 
             print("🌐 Dev server listening on http://\(host):\(port) (swift fallback)")
@@ -147,7 +145,6 @@ public final class LocalHTTPServer {
             listener?.cancel()
             listener = nil
         #else
-            isFallbackRunning = false
             if fallbackSocketFD >= 0 {
                 Self.shutdownSocket(fallbackSocketFD)
                 Self.closeSocket(fallbackSocketFD)
@@ -176,8 +173,8 @@ public final class LocalHTTPServer {
 
     #else
 
-        private func acceptLoop(serverFD: Int32, rootPath: String) {
-            while isFallbackRunning {
+        private static func acceptLoop(serverFD: Int32, rootPath: String) {
+            while true {
                 var clientAddress = sockaddr()
                 var clientLength = socklen_t(MemoryLayout<sockaddr>.size)
 
@@ -188,6 +185,9 @@ public final class LocalHTTPServer {
                 }
 
                 if clientFD < 0 {
+                    if errno == EBADF || errno == EINVAL || errno == ENOTSOCK {
+                        break
+                    }
                     continue
                 }
 

@@ -11,6 +11,7 @@
 - Yams (YAML)
 - Stencil (templates)
 - Swift Testing (tests, via toolchain or `swift-testing` package fallback)
+- FoundationNetworking (Linux, pour les APIs URLSession/URLRequest)
 
 ## Outils et patterns
 
