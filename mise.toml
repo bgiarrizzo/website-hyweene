@@ -4,7 +4,7 @@ run = "mise tasks ls"
 
 [tasks.install]
 description = "Install Swift dependencies"
-run = "cd generator && swift package resolve && swift build -c release && cp .build/release/hyweene ~/.local/bin/"
+run = "cd generator && swift package resolve && swift build -c release && cp .build/release/hyweene ~/.local/bin/ && cd .. && rm -rf hyweene"
 
 [tasks.build]
 description = "Build the static site once"

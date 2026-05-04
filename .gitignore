@@ -1,7 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/vim,python,visualstudiocode,xcode,swift,swiftpackagemanager,swiftpm
 # Edit at https://www.toptal.com/developers/gitignore?templates=vim,python,visualstudiocode,xcode,swift,swiftpackagemanager,swiftpm
 
-hyweene
+./hyweene
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
