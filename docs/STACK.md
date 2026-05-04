@@ -18,4 +18,4 @@
 - CLI custom (`hyweene build`, `hyweene dev`, `hyweene quick-add-link [--comment <text>]`, `hyweene check-dead-links`)
 - Exécuteur concurrent pour tâches indépendantes
 - Watcher par snapshot + polling
-- Serveur HTTP local minimal via `Network`
+- Serveur HTTP local minimal via `Network` avec fallback Swift natif (sockets POSIX) si `Network` n'est pas disponible (ex: Linux)

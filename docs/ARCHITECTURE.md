@@ -36,7 +36,7 @@ La parallélisation repose sur un exécuteur concurrent dédié:
 Le mode dev combine:
 
 - Build initial
-- Serveur HTTP local minimal
+- Serveur HTTP local minimal (`Network` sur Apple platforms, fallback Swift natif (sockets POSIX) sur Linux)
 - Watcher par snapshot (polling) avec debounce 500 ms
 - Rebuild à la détection de changement
 
