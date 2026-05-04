@@ -10,6 +10,7 @@
 - Ink (Markdown)
 - Yams (YAML)
 - Stencil (templates)
+- swift-argument-parser (parsing CLI, sous-commandes et options)
 - Swift Testing (tests, via toolchain or `swift-testing` package fallback)
 - FoundationNetworking (Linux, pour les APIs URLSession/URLRequest)
 

@@ -6,7 +6,7 @@ creation_date: 2026-04-26
 update_date: 2026-04-28
 category: meta
 author: Bruno Giarrizzo
-applies_to: "*.swift"
+applies_to: ["*.swift", "*.md", "docs/*.md", "docs/ADR/*.md"]
 ---
 
 # Agent guide for Swift and SwiftUI
@@ -107,11 +107,12 @@ If SwiftData is configured to use CloudKit:
 - Use a consistent project structure, with folder layout determined by app features.
 - Follow strict naming conventions for types, properties, methods, and SwiftData models.
 - Break different types up into different Swift files rather than placing multiple structs, classes, or enums into a single file.
-- Add code comments and documentation comments as needed.
+- Add code comments and documentation comments everywhere.
 - **Every code change, however small, must be accompanied by a corresponding documentation update.** This includes:
   - `README.md` — keep the overview, setup instructions, and feature list up to date.
   - Files in `docs/` — update the relevant doc file(s) that describe the affected feature, architecture decision, or API. If no existing file covers the change, create one.
   - List of files that must be present/updated in `docs/`: 
+    - `ADR/XXXX-feature-or-decision-name.md` : For any significant architectural decision or new feature, create an ADR (Architecture Decision Record) that describes the problem, the options considered, the decision made, and the rationale behind it.
     - `APP.md` : This file should contain an overview of the project's purpose, main features, and any relevant background information.
     - `ARCHITECTURE.md` : This file should describe the overall architecture of the project, including the design patterns used, the folder structure, and any important architectural decisions.
     - `FEATURES.md` : This file should list and describe each feature of the project, including any relevant details about how they work or how they are implemented.

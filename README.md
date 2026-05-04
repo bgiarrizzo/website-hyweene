@@ -6,6 +6,8 @@ Générateur de site statique en Swift pour hyweene.fr.
 
 Le binaire `hyweene` expose maintenant quatre commandes explicites :
 
+Le parsing CLI est géré par `swift-argument-parser` (sous-commandes et options typées).
+
 ```bash
 hyweene build
 hyweene dev --host 0.0.0.0 --port 1234

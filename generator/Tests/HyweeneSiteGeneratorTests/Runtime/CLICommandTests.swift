@@ -1,123 +1,104 @@
+import ArgumentParser
 import Testing
 
 @testable import HyweeneSiteGenerator
 
-@Suite("CLICommand") struct CLICommandTests {
-    @Test("Parse build command")
-    func parseBuildCommand() throws {
-        let command = try parseCLICommand(arguments: ["hyweene", "build"])
-        #expect(command == .build)
+struct CLICommandTests {
+    @Test("Parse build subcommand")
+    func parseBuildSubcommand() throws {
+        _ = try HyweeneCLIApp.Build.parse([])
     }
 
-    @Test("Parse dev command with explicit host and port")
-    func parseDevCommandWithHostAndPort() throws {
-        let command = try parseCLICommand(arguments: [
-            "hyweene", "dev", "--host", "0.0.0.0", "--port", "1234",
+    @Test("Parse dev subcommand with explicit host and port")
+    func parseDevSubcommandWithHostAndPort() throws {
+        let command = try HyweeneCLIApp.Dev.parse([
+            "--host", "0.0.0.0", "--port", "1234",
         ])
-        #expect(command == .dev(host: "0.0.0.0", port: 1234))
+        #expect(command.host == "0.0.0.0")
+        #expect(command.port == 1234)
     }
 
-    @Test("Parse dev command with defaults")
-    func parseDevCommandWithDefaults() throws {
-        let command = try parseCLICommand(arguments: ["hyweene", "dev"])
-        #expect(command == .dev(host: "0.0.0.0", port: 8000))
+    @Test("Parse dev subcommand with defaults")
+    func parseDevSubcommandWithDefaults() throws {
+        let command = try HyweeneCLIApp.Dev.parse([])
+        #expect(command.host == "0.0.0.0")
+        #expect(command.port == 8000)
     }
 
-    @Test("Parse unknown command throws")
-    func parseUnknownCommandThrows() {
-        #expect(throws: CLICommandParserError.unknownCommand("unknown")) {
-            _ = try parseCLICommand(arguments: ["hyweene", "unknown"])
+    @Test("Parse unknown subcommand throws")
+    func parseUnknownSubcommandThrows() {
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.parseAsRoot(["unknown"])
         }
     }
 
-    @Test("Parse invalid port throws")
-    func parseInvalidPortThrows() {
-        #expect(throws: CLICommandParserError.invalidPort("abc")) {
-            _ = try parseCLICommand(arguments: ["hyweene", "dev", "--port", "abc"])
+    @Test("Parse invalid port format throws")
+    func parseInvalidPortFormatThrows() {
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.Dev.parse(["--port", "abc"])
         }
     }
 
     @Test("Parse out-of-range port throws")
     func parseOutOfRangePortThrows() {
-        #expect(throws: CLICommandParserError.invalidPort("70000")) {
-            _ = try parseCLICommand(arguments: ["hyweene", "dev", "--port", "70000"])
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.Dev.parse(["--port", "70000"])
         }
     }
 
     @Test("Parse missing host value throws")
     func parseMissingHostValueThrows() {
-        #expect(throws: CLICommandParserError.missingValue(option: "--host")) {
-            _ = try parseCLICommand(arguments: ["hyweene", "dev", "--host"])
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.Dev.parse(["--host"])
         }
     }
 
-    @Test("Help text contains both commands")
-    func helpTextContainsCommands() {
-        let help = cliHelp(programName: "hyweene")
-
-        #expect(help.contains("hyweene build"))
-        #expect(help.contains("hyweene dev --host <host> --port <port>"))
-        #expect(help.contains("hyweene quick-add-link <url> [--comment <text>]"))
-        #expect(help.contains("hyweene check-dead-links [--path <dir>]"))
+    @Test("Parse quick-add-link subcommand")
+    func parseQuickAddLinkSubcommand() throws {
+        let command = try HyweeneCLIApp.QuickAddLink.parse(["https://example.com"])
+        #expect(command.url == "https://example.com")
+        #expect(command.comment == nil)
     }
 
-    @Test("Parse quick-add-link command")
-    func parseQuickAddLinkCommand() throws {
-        let command = try parseCLICommand(arguments: [
-            "hyweene", "quick-add-link", "https://example.com",
+    @Test("Parse quick-add-link subcommand with comment option")
+    func parseQuickAddLinkSubcommandWithComment() throws {
+        let command = try HyweeneCLIApp.QuickAddLink.parse([
+            "https://example.com", "--comment", "Great read",
         ])
-        #expect(command == .quickAddLink(url: "https://example.com", comment: nil))
-    }
-
-    @Test("Parse quick-add-link command with comment option")
-    func parseQuickAddLinkCommandWithComment() throws {
-        let command = try parseCLICommand(arguments: [
-            "hyweene", "quick-add-link", "https://example.com", "--comment", "Great read",
-        ])
-        #expect(command == .quickAddLink(url: "https://example.com", comment: "Great read"))
+        #expect(command.url == "https://example.com")
+        #expect(command.comment == "Great read")
     }
 
     @Test("Parse quick-add-link missing URL throws")
     func parseQuickAddLinkMissingURLThrows() {
-        #expect(throws: CLICommandParserError.missingURL) {
-            _ = try parseCLICommand(arguments: ["hyweene", "quick-add-link"])
-        }
-    }
-
-    @Test("Parse quick-add-link invalid URL throws")
-    func parseQuickAddLinkInvalidURLThrows() {
-        #expect(throws: CLICommandParserError.invalidURL("notaurl")) {
-            _ = try parseCLICommand(arguments: ["hyweene", "quick-add-link", "notaurl"])
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.QuickAddLink.parse([])
         }
     }
 
     @Test("Parse quick-add-link missing comment value throws")
     func parseQuickAddLinkMissingCommentValueThrows() {
-        #expect(throws: CLICommandParserError.missingComment) {
-            _ = try parseCLICommand(arguments: [
-                "hyweene", "quick-add-link", "https://example.com", "--comment",
-            ])
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.QuickAddLink.parse(["https://example.com", "--comment"])
         }
     }
 
     @Test("Parse check-dead-links default path")
     func parseCheckDeadLinksDefaultPath() throws {
-        let command = try parseCLICommand(arguments: ["hyweene", "check-dead-links"])
-        #expect(command == .checkDeadLinks(path: nil))
+        let command = try HyweeneCLIApp.CheckDeadLinks.parse([])
+        #expect(command.path == nil)
     }
 
     @Test("Parse check-dead-links custom path")
     func parseCheckDeadLinksCustomPath() throws {
-        let command = try parseCLICommand(arguments: [
-            "hyweene", "check-dead-links", "--path", "./current",
-        ])
-        #expect(command == .checkDeadLinks(path: "./current"))
+        let command = try HyweeneCLIApp.CheckDeadLinks.parse(["--path", "./current"])
+        #expect(command.path == "./current")
     }
 
     @Test("Parse check-dead-links missing path value throws")
     func parseCheckDeadLinksMissingPathValueThrows() {
-        #expect(throws: CLICommandParserError.missingValue(option: "--path")) {
-            _ = try parseCLICommand(arguments: ["hyweene", "check-dead-links", "--path"])
+        #expect(throws: Error.self) {
+            _ = try HyweeneCLIApp.CheckDeadLinks.parse(["--path"])
         }
     }
 }

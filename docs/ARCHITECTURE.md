@@ -5,7 +5,9 @@
 Le générateur est organisé en deux couches:
 
 - Librairie `HyweeneSiteGenerator` (logique métier testable)
-- Exécutable `hyweene` (routing CLI)
+- Exécutable `hyweene` (routing CLI via `swift-argument-parser`)
+
+Les sous-commandes CLI (`build`, `dev`, `quick-add-link`, `check-dead-links`) sont définies dans la librairie (`Runtime/CLIApp.swift`) pour être testables, et l'exécutable ne fait qu'exposer l'entrée `@main`.
 
 ## Pipeline de build
 
