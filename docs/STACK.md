@@ -1,23 +1,23 @@
 # STACK
 
-## Langage et runtime
+## Language and Runtime
 
 - Swift 6
 - Swift Package Manager
 
-## Bibliothèques
+## Libraries
 
 - Ink (Markdown)
 - Yams (YAML)
 - Stencil (templates)
-- swift-argument-parser (parsing CLI, sous-commandes et options)
+- swift-argument-parser (CLI parsing, subcommands, and options)
 - Swift Testing (tests, via toolchain or `swift-testing` package fallback)
-- FoundationNetworking (Linux, pour les APIs URLSession/URLRequest)
+- FoundationNetworking (Linux, for URLSession/URLRequest APIs)
 
-## Outils et patterns
+## Tools and Patterns
 
 - Task runner: `mise` (`mise.toml`)
 - CLI custom (`hyweene build`, `hyweene dev`, `hyweene quick-add-link [--comment <text>]`, `hyweene check-dead-links`)
-- Exécuteur concurrent pour tâches indépendantes
-- Watcher par snapshot + polling
-- Serveur HTTP local minimal via `Network` avec fallback Swift natif (sockets POSIX) si `Network` n'est pas disponible (ex: Linux)
+- Concurrent executor for independent tasks
+- Snapshot-based file watcher with polling
+- Minimal local HTTP server via `Network`, with native Swift fallback (POSIX sockets) when `Network` is unavailable (e.g., Linux)

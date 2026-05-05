@@ -14,7 +14,7 @@ author: Bruno Giarrizzo
 1. Read `AGENTS.md` (global engineering rules).
 2. Read `docs/APP.md` (product rules, glossary, non-goals).
 3. Read `docs/ARCHITECTURE.md` (folder layout, layer rules, data flow).
-4. Check ADRs in `docs/adr/` for constraints and past decisions.
+4. Check ADRs in `docs/ADR/` for constraints and past decisions.
 
 ## What to read depending on the task
 
@@ -24,20 +24,20 @@ author: Bruno Giarrizzo
 - ADRs: check if there are UI/architecture constraints
 
 ### Modify game rules / solver / domain logic
-- `docs/APP.md` → game rules (source of truth)
-- `docs/ARCHITECTURE.md` → Domain entities + Use cases
-- `docs/adr/` → solver and domain decisions
+- `docs/APP.md` → product behavior and user-facing rules (source of truth)
+- `docs/ARCHITECTURE.md` → architecture boundaries and build pipeline
+- `docs/ADR/` → core architecture and tooling decisions
 
 ### Refactor / dependency changes
 - `docs/STACK.md`
-- `docs/adr/` → decisions about libraries, patterns, DI
+- `docs/ADR/` → decisions about libraries and patterns
 
 ### Setup / run / test
 - `docs/SETUP.md`
 - `AGENTS.md` → testing & PR instructions
 
 ## Sources of truth
-- Product rules and gameplay: `docs/APP.md`
+- Product behavior and feature rules: `docs/APP.md`
 - Architecture and code organization rules: `docs/ARCHITECTURE.md`
-- Historical technical decisions and constraints: `docs/adr/`
+- Historical technical decisions and constraints: `docs/ADR/`
 - Global engineering practices: `AGENTS.md`

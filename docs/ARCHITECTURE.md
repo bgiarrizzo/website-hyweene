@@ -1,52 +1,52 @@
 # ARCHITECTURE
 
-## Vue d'ensemble
+## Overview
 
-Le générateur est organisé en deux couches:
+The generator is organized into two layers:
 
-- Librairie `HyweeneSiteGenerator` (logique métier testable)
-- Exécutable `hyweene` (routing CLI via `swift-argument-parser`)
+- `HyweeneSiteGenerator` library (testable business logic)
+- `hyweene` executable (CLI routing via `swift-argument-parser`)
 
-Les sous-commandes CLI (`build`, `dev`, `quick-add-link`, `check-dead-links`) sont définies dans la librairie (`Runtime/CLIApp.swift`) pour être testables, et l'exécutable ne fait qu'exposer l'entrée `@main`.
+CLI subcommands (`build`, `dev`, `quick-add-link`, `check-dead-links`) are defined in the library (`Runtime/CLIApp.swift`) so they remain testable, while the executable only exposes the `@main` entry point.
 
-## Pipeline de build
+## Build Pipeline
 
-1. Copie des assets (`content/media`, `content/static`)
-2. Générateurs indépendants en parallèle:
+1. Copy assets (`content/media`, `content/static`)
+2. Run independent generators in parallel:
    - BlogGenerator
    - LinksGenerator
    - PagesGenerator
    - LearnGenerator
    - ResumeGenerator
-3. Générateurs dépendants en séquentiel:
-   - HomepageGenerator (dépend blog + links)
+3. Run dependent generators sequentially:
+   - HomepageGenerator (depends on blog + links)
    - SitemapGenerator
-4. Publication:
-   - mise à jour du symlink `current`
-   - nettoyage des anciennes releases
+4. Publish:
+   - update the `current` symlink
+   - clean old releases
 
-## Parallélisation
+## Parallelization
 
-La parallélisation repose sur un exécuteur concurrent dédié:
+Parallelization relies on a dedicated concurrent executor:
 
-- Boucles parallèles pour posts, liens, modules/pages et pages statiques
-- Propagation d'erreur au premier échec
-- Arrêt des opérations restantes dès erreur
+- Parallel loops for posts, links, learning modules/pages, and static pages
+- Error propagation on first failure
+- Cancellation of remaining operations after failure
 
-## Mode dev
+## Dev Mode
 
-Le mode dev combine:
+Dev mode combines:
 
-- Build initial
-- Serveur HTTP local minimal (`Network` sur Apple platforms, fallback Swift natif (sockets POSIX) sur Linux)
-- Watcher par snapshot (polling) avec debounce 500 ms
-- Rebuild à la détection de changement
+- Initial build
+- Minimal local HTTP server (`Network` on Apple platforms, native Swift fallback with POSIX sockets on Linux)
+- Snapshot-based file watcher (polling) with 500 ms debounce
+- Rebuild when a change is detected
 
-Le serveur continue de servir la dernière release valide si un rebuild échoue.
+The server keeps serving the latest valid release if a rebuild fails.
 
-## Outils de liens CLI
+## CLI Link Tools
 
-Le runtime CLI inclut aussi des commandes de maintenance de contenu:
+The CLI runtime also includes content maintenance commands:
 
-- `quick-add-link`: récupération du titre HTML distant + génération d'un fichier markdown de lien (interactif ou non interactif avec `--comment`)
-- `check-dead-links`: scan récursif des HTML générés + détection des liens externes en 404
+- `quick-add-link`: fetch remote HTML title + generate a link Markdown file (interactive or non-interactive with `--comment`)
+- `check-dead-links`: recursively scan generated HTML + detect external 404 links

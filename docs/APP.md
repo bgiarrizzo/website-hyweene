@@ -1,25 +1,25 @@
 # APP
 
-## Objectif
+## Purpose
 
-Ce projet génère un site statique personnel (hyweene.fr) à partir de contenu Markdown/YAML et de templates Stencil.
+This project generates a personal static site (hyweene.fr) from Markdown/YAML content and Stencil templates.
 
-## Comportement principal
+## Main Behavior
 
-- Génération structurée par sections: blog, liens, pages, CV, apprentissage.
-- Publication dans un dossier horodaté de `releases/`.
-- Mise à jour atomique du symlink `current` vers la dernière release valide.
+- Section-based generation: blog, links, pages, resume, learning.
+- Publication into a timestamped folder under `releases/`.
+- Atomic update of the `current` symlink to the latest valid release.
 
-## Commandes utilisateur
+## User Commands
 
 - `hyweene build`
 - `hyweene dev --host <host> --port <port>`
 - `hyweene quick-add-link <url> [--comment <text>]`
 - `hyweene check-dead-links [--path <dir>]`
 
-## Mode développement
+## Development Mode
 
-Le mode dev fait un build initial, sert le dossier `current`, puis reconstruit à chaque changement dans:
+Dev mode runs an initial build, serves the `current` folder, and rebuilds on each change in:
 
 - `content/`
 - `generator/Templates/`

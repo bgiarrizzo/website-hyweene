@@ -1,9 +1,9 @@
 ---
-title: "ADR Index — Make 67"
+title: "ADR Index — Hyweene Static Site Generator"
 filename: "0000-adr-index.md"
 description: "Index of all Architecture Decision Records (ADRs) for the project."
 creation_date: 2026-04-27
-update_date: 2026-04-28
+update_date: 2026-05-06
 category: adr
 ---
 
@@ -26,14 +26,18 @@ Each ADR MUST include:
 ## List
 
 | # | File | Title | Status |
-|---|---|---|---|
+|---|------|-------|--------|
 | 0000 | [0000-adr-index.md](0000-adr-index.md) | Index (this file) | — |
 | 0001 | [0001-adr-template.md](0001-adr-template.md) | Template ADR | — |
-| 0002 | [0002-left-to-right-arithmetic-evaluation.md](0002-left-to-right-arithmetic-evaluation.md) | Strict left-to-right arithmetic evaluation | Accepted |
-| 0003 | [0003-mvvm-clean-architecture.md](0003-mvvm-clean-architecture.md) | MVVM + Clean Architecture | Accepted |
-| 0004 | [0004-guaranteed-solvable-hand-generation.md](0004-guaranteed-solvable-hand-generation.md) | Guaranteed-solvable hand generation | Accepted |
-| 0005 | [0005-swift-testing-over-xctest.md](0005-swift-testing-over-xctest.md) | Swift Testing over XCTest | Accepted |
-| 0006 | [0006-observable-macro-over-observable-object.md](0006-observable-macro-over-observable-object.md) | `@Observable` macro over `ObservableObject` | Accepted |
-| 0007 | [0007-no-data-persistence.md](0007-no-data-persistence.md) | No data persistence | Accepted |
-| 0008 | [0008-canvas-timelineview-confetti-animation.md](0008-canvas-timelineview-confetti-animation.md) | `Canvas` + `TimelineView` for the confetti animation | Accepted |
-| 0009 | [0009-sentry-error-monitoring.md](0009-sentry-error-monitoring.md) | Sentry for error monitoring | Accepted |
+| 0002 | [0002-swift-as-implementation-language.md](0002-swift-as-implementation-language.md) | Swift as the implementation language | Accepted |
+| 0003 | [0003-library-executable-split.md](0003-library-executable-split.md) | Library / executable split | Accepted |
+| 0004 | [0004-stencil-template-engine.md](0004-stencil-template-engine.md) | Stencil as the template engine | Accepted |
+| 0005 | [0005-ink-markdown-parser.md](0005-ink-markdown-parser.md) | Ink as the Markdown parser | Accepted |
+| 0006 | [0006-yaml-frontmatter.md](0006-yaml-frontmatter.md) | YAML frontmatter for content metadata | Accepted |
+| 0007 | [0007-timestamped-releases-symlink.md](0007-timestamped-releases-symlink.md) | Timestamped releases and `current` symlink | Accepted |
+| 0008 | [0008-parallel-build-pipeline.md](0008-parallel-build-pipeline.md) | Parallel build pipeline with OperationQueue | Accepted |
+| 0009 | [0009-polling-file-watcher.md](0009-polling-file-watcher.md) | Snapshot polling file watcher (dev mode) | Accepted |
+| 0010 | [0010-local-http-server-network-posix-fallback.md](0010-local-http-server-network-posix-fallback.md) | Local HTTP server: Network.framework with POSIX fallback | Accepted |
+| 0011 | [0011-swift-argument-parser.md](0011-swift-argument-parser.md) | swift-argument-parser for CLI | Accepted |
+| 0012 | [0012-mise-task-runner.md](0012-mise-task-runner.md) | mise as project task runner | Accepted |
+| 0013 | [0013-environment-variable-configuration.md](0013-environment-variable-configuration.md) | Environment-variable-based configuration | Accepted |

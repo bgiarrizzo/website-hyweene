@@ -1,6 +1,6 @@
 # SETUP
 
-## Prérequis
+## Prerequisites
 
 - macOS
 - Swift 6+
@@ -17,13 +17,13 @@ mise run install
 mise run build
 ```
 
-## Mode développement
+## Development Mode
 
 ```bash
 mise run dev
 ```
 
-Serveur par défaut:
+Default server:
 
 - host: `0.0.0.0`
 - port: `1234`
@@ -35,7 +35,7 @@ cd generator
 swift test
 ```
 
-## Exécution directe du binaire
+## Direct Binary Execution
 
 ```bash
 cd generator
