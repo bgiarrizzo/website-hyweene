@@ -11,6 +11,12 @@
 mise run install
 ```
 
+## Available Tasks
+
+```bash
+mise tasks ls
+```
+
 ## Build
 
 ```bash
@@ -26,7 +32,7 @@ mise run dev
 Default server:
 
 - host: `0.0.0.0`
-- port: `1234`
+- port: `8000`
 
 ## Tests
 

@@ -2,12 +2,35 @@
 
 ## Overview
 
-The generator is organized into two layers:
+The generator is currently organized into two runtime layers:
 
 - `HyweeneSiteGenerator` library (testable business logic)
 - `hyweene` executable (CLI routing via `swift-argument-parser`)
 
 CLI subcommands (`build`, `dev`, `quick-add-link`, `check-dead-links`) are defined in the library (`Runtime/CLIApp.swift`) so they remain testable, while the executable only exposes the `@main` entry point.
+
+## Target Architecture (AGENTS alignment)
+
+The target is Clean Architecture adapted for a CLI static site generator:
+
+- `Runtime/App`:
+   - CLI argument parsing and command entry points
+   - command-to-use-case orchestration
+   - user-facing error mapping
+- `Domain`:
+   - immutable entities
+   - one use case per business capability (`execute()`)
+   - repository protocols only
+- `Data`:
+   - repository implementations
+   - DTOs and mappers
+   - adapters to filesystem, template engine, and network
+- `Core`:
+   - shared utilities, parsers, and infrastructure helpers
+
+Dependency direction:
+
+- `Runtime/App -> Domain <- Data`
 
 ## Build Pipeline
 
@@ -24,6 +47,8 @@ CLI subcommands (`build`, `dev`, `quick-add-link`, `check-dead-links`) are defin
 4. Publish:
    - update the `current` symlink
    - clean old releases
+
+This pipeline behavior is a compatibility contract and must remain stable during refactors.
 
 ## Parallelization
 
@@ -50,3 +75,10 @@ The CLI runtime also includes content maintenance commands:
 
 - `quick-add-link`: fetch remote HTML title + generate a link Markdown file (interactive or non-interactive with `--comment`)
 - `check-dead-links`: recursively scan generated HTML + detect external 404 links
+
+## Migration Strategy
+
+- Introduce Domain use cases and repository protocols before removing legacy classes.
+- Keep old and new paths side-by-side when necessary.
+- Validate generated output consistency at each migration step.
+- Add tests for each migrated type in the mirrored test tree.

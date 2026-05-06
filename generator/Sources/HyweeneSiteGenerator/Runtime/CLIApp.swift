@@ -22,7 +22,7 @@ public struct HyweeneCLIApp: AsyncParsableCommand {
         public init() {}
 
         public mutating func run() async throws {
-            _ = try buildSite()
+            _ = try BuildSiteUseCase().execute()
         }
     }
 

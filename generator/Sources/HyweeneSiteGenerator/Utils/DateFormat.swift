@@ -2,7 +2,7 @@ import Foundation
 
 /// DateFormat utility - provides multiple date format outputs
 /// Mimics the Python DateFormat class functionality
-public class DateFormat {
+public class DateFormat: @unchecked Sendable {
     let original: Date
     let rfc3339: String
     let condensed: String

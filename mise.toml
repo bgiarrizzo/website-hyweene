@@ -18,7 +18,7 @@ run = "hyweene dev --host 0.0.0.0 --port 1234"
 
 [tasks.test]
 description = "Run unit tests"
-run = "cd generator && swift test"
+run = "cd generator && swift test --enable-code-coverage"
 
 [tasks.serve]
 description = "Serve the generated site on localhost:8000"

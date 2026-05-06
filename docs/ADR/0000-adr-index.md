@@ -41,3 +41,5 @@ Each ADR MUST include:
 | 0011 | [0011-swift-argument-parser.md](0011-swift-argument-parser.md) | swift-argument-parser for CLI | Accepted |
 | 0012 | [0012-mise-task-runner.md](0012-mise-task-runner.md) | mise as project task runner | Accepted |
 | 0013 | [0013-environment-variable-configuration.md](0013-environment-variable-configuration.md) | Environment-variable-based configuration | Accepted |
+| 0014 | [0014-clean-architecture-cli-migration.md](0014-clean-architecture-cli-migration.md) | Clean Architecture CLI migration | Accepted |
+| 0015 | [0015-use-case-boundary-and-error-strategy.md](0015-use-case-boundary-and-error-strategy.md) | Use-case boundary and error strategy | Accepted |

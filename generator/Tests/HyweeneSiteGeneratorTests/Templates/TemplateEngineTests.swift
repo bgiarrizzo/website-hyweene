@@ -94,8 +94,8 @@ struct TemplateEngineTests {
             _ = try engine.render(template: "invalid.html", context: [:])
             // May or may not throw depending on Stencil's behavior
         } catch {
-            // Expected for invalid syntax
-            Bool(true)  // Just to satisfy the test requirement
+            // Expected for invalid syntax.
+            _ = true
         }
     }
 }

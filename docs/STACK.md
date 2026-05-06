@@ -21,3 +21,9 @@
 - Concurrent executor for independent tasks
 - Snapshot-based file watcher with polling
 - Minimal local HTTP server via `Network`, with native Swift fallback (POSIX sockets) when `Network` is unavailable (e.g., Linux)
+
+## Architecture Patterns
+
+- Current: generator-oriented runtime with a testable library + executable split.
+- Target: Clean Architecture adapted to CLI (Domain use cases, repository protocols, data adapters).
+- Migration strategy: incremental, output-compatible refactors with mirrored test expansion.

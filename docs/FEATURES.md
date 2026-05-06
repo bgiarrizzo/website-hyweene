@@ -13,6 +13,19 @@
 - Independent generators run in parallel
 - Parallel rendering of independent items (posts, links, pages, modules)
 
+## Reliability
+
+- Timestamped releases avoid partial deploy states.
+- `current` symlink switches atomically to the latest valid build.
+- Old releases are cleaned automatically to limit disk growth.
+- Dev server keeps serving latest valid release when rebuild fails.
+
+## Architecture Work In Progress
+
+- Progressive migration toward Domain use cases and repository boundaries.
+- Incremental refactor policy to preserve generated output compatibility.
+- Tests are expanded per migrated component (domain/data/runtime).
+
 ## CLI Commands
 
 - `hyweene build`: one-time build
@@ -22,7 +35,7 @@
 
 ## Project Automation
 
-- Project tasks exposed through `mise` (`mise run install|setup|build|dev|test|serve|quick_add_link`)
+- Project tasks exposed through `mise` (`mise run install|build|dev|test|serve|quick_add_link`)
 
 ## Publication Reliability
 
