@@ -62,19 +62,20 @@ public struct GenerateBlogUseCase: Sendable {
     // MARK: - Individual Posts
 
     private func writePosts(_ posts: [BlogPostEntity]) throws {
-        try runConcurrently(operations: posts.map { post in
-            {
-                let context: [String: Any] = [
-                    "page_title": "\(post.title) - Blog",
-                    "post": post.toDictionary(),
-                ]
-                let html = try self.templateRepository.render(
-                    template: "blog/single.stencil", context: context)
-                try self.fileRepository.writeFile(
-                    content: html, to: "blog/\(post.path)/index.html")
-                print("✍️  Writing blog post: blog/\(post.path)/index.html")
-            }
-        })
+        try runConcurrently(
+            operations: posts.map { post in
+                {
+                    let context: [String: Any] = [
+                        "page_title": "\(post.title) - Blog",
+                        "post": post.toDictionary(),
+                    ]
+                    let html = try self.templateRepository.render(
+                        template: "blog/single.stencil", context: context)
+                    try self.fileRepository.writeFile(
+                        content: html, to: "blog/\(post.path)/index.html")
+                    print("✍️  Writing blog post: blog/\(post.path)/index.html")
+                }
+            })
     }
 
     // MARK: - Post List
@@ -99,24 +100,25 @@ public struct GenerateBlogUseCase: Sendable {
         posts: [BlogPostEntity], categories: [BlogPostCategory]
     ) throws {
         let allCategoryDicts = categories.map { $0.toDictionary() }
-        try runConcurrently(operations: categories.map { category in
-            {
-                let filtered = posts.filter { $0.category.slug == category.slug }
-                let yearGroups = self.groupPostsByYear(filtered)
-                let context: [String: Any] = [
-                    "page_title": "Blog - \(category.name)",
-                    "posts_by_year": yearGroups,
-                    "category": category.toDictionary(),
-                    "categories": allCategoryDicts,
-                ]
-                let html = try self.templateRepository.render(
-                    template: "blog/list.stencil", context: context)
-                try self.fileRepository.writeFile(
-                    content: html,
-                    to: "blog/category/\(category.slug)/index.html")
-                print("📂 Writing category page: blog/category/\(category.slug)/index.html")
-            }
-        })
+        try runConcurrently(
+            operations: categories.map { category in
+                {
+                    let filtered = posts.filter { $0.category.slug == category.slug }
+                    let yearGroups = self.groupPostsByYear(filtered)
+                    let context: [String: Any] = [
+                        "page_title": "Blog - \(category.name)",
+                        "posts_by_year": yearGroups,
+                        "category": category.toDictionary(),
+                        "categories": allCategoryDicts,
+                    ]
+                    let html = try self.templateRepository.render(
+                        template: "blog/list.stencil", context: context)
+                    try self.fileRepository.writeFile(
+                        content: html,
+                        to: "blog/category/\(category.slug)/index.html")
+                    print("📂 Writing category page: blog/category/\(category.slug)/index.html")
+                }
+            })
     }
 
     // MARK: - RSS Feed

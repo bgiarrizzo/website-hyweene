@@ -25,6 +25,13 @@
 - Progressive migration toward Domain use cases and repository boundaries.
 - Incremental refactor policy to preserve generated output compatibility.
 - Tests are expanded per migrated component (domain/data/runtime).
+- Migrated generators:
+	- Blog (`GenerateBlogUseCase`, Domain/Data adapters)
+	- Links (`GenerateLinksUseCase`, Domain/Data adapters)
+	- Pages (`GeneratePagesUseCase`, Domain/Data adapters)
+	- Learn (`GenerateLearnUseCase`, module/page Domain entities + Data repository)
+	- Homepage (`GenerateHomepageUseCase`, consumes Domain entities instead of runtime generators)
+	- Resume (`GenerateResumeUseCase`, aggregate Domain entity + Data repository)
 
 ## CLI Commands
 

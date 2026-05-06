@@ -18,23 +18,29 @@ final class MockLinkContentRepository: LinkContentRepository, @unchecked Sendabl
 
 /// Controllable `FileRepository` that records all writes.
 final class MockLinkFileRepository: FileRepository, @unchecked Sendable {
+    private let lock = NSLock()
     var written: [String: String] = [:]
     var errorToThrow: Error?
 
     func writeFile(content: String, to relativePath: String) throws {
         if let error = errorToThrow { throw error }
+        lock.lock()
+        defer { lock.unlock() }
         written[relativePath] = content
     }
 }
 
 /// Controllable `TemplateRepository` that returns stub output.
 final class MockLinkTemplateRepository: TemplateRepository, @unchecked Sendable {
+    private let lock = NSLock()
     var stub: String = "<html/>"
     var errorToThrow: Error?
     var rendered: [(template: String, context: [String: Any])] = []
 
     func render(template: String, context: [String: Any]) throws -> String {
         if let error = errorToThrow { throw error }
+        lock.lock()
+        defer { lock.unlock() }
         rendered.append((template: template, context: context))
         return stub
     }

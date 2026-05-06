@@ -35,10 +35,12 @@ struct FileSystemContentRepositoryTests {
             at: tmp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: tmp) }
 
-        try writeTempPost(in: tmp, filename: "post-a.md", title: "Post A",
-                          publishDate: "2024-03-01")
-        try writeTempPost(in: tmp, filename: "post-b.md", title: "Post B",
-                          publishDate: "2024-06-01")
+        try writeTempPost(
+            in: tmp, filename: "post-a.md", title: "Post A",
+            publishDate: "2024-03-01")
+        try writeTempPost(
+            in: tmp, filename: "post-b.md", title: "Post B",
+            publishDate: "2024-06-01")
 
         let repo = FileSystemContentRepository(blogPath: tmp.path)
         let posts = try repo.loadBlogPosts()
@@ -54,10 +56,12 @@ struct FileSystemContentRepositoryTests {
             at: tmp, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: tmp) }
 
-        try writeTempPost(in: tmp, filename: "older.md", title: "Older Post",
-                          publishDate: "2023-01-01")
-        try writeTempPost(in: tmp, filename: "newer.md", title: "Newer Post",
-                          publishDate: "2024-06-01")
+        try writeTempPost(
+            in: tmp, filename: "older.md", title: "Older Post",
+            publishDate: "2023-01-01")
+        try writeTempPost(
+            in: tmp, filename: "newer.md", title: "Newer Post",
+            publishDate: "2024-06-01")
 
         let repo = FileSystemContentRepository(blogPath: tmp.path)
         let posts = try repo.loadBlogPosts()
@@ -75,10 +79,12 @@ struct FileSystemContentRepositoryTests {
             at: draftDir, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: tmp) }
 
-        try writeTempPost(in: tmp, filename: "post.md", title: "Published",
-                          publishDate: "2024-01-01")
-        try writeTempPost(in: draftDir, filename: "draft-post.md",
-                          title: "Draft In Folder", publishDate: "2024-02-01")
+        try writeTempPost(
+            in: tmp, filename: "post.md", title: "Published",
+            publishDate: "2024-01-01")
+        try writeTempPost(
+            in: draftDir, filename: "draft-post.md",
+            title: "Draft In Folder", publishDate: "2024-02-01")
 
         let repo = FileSystemContentRepository(blogPath: tmp.path)
         let posts = try repo.loadBlogPosts()

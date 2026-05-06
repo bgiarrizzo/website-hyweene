@@ -2,7 +2,8 @@ import Foundation
 
 /// Pages content generator (about, now, projets, etc.)
 public class PagesGenerator: Generator {
-    public var pages: [Page] = []
+    /// Pages produced by the last `generate()` call.
+    public var pages: [PageEntity] = []
 
     public init() {}
 
@@ -12,54 +13,17 @@ public class PagesGenerator: Generator {
         print("#", String(repeating: "-", count: 80))
         print("Processing pages...")
 
-        // Discover and process all pages
-        try loadPages()
+        let contentRepository = FileSystemPageContentRepository(pagesPath: Config.pagesPath)
+        let fileRepository = LocalFileRepository(basePath: Config.releasePath)
+        let templateRepository = try StencilTemplateRepository(templatePath: Config.templatePath)
 
-        // Write individual pages
-        try writePages()
-
-        // Write sitemap
-        try writeSitemap()
-
-        print("✅ Pages generation complete!")
-    }
-
-    // MARK: - Page Loading
-
-    private func loadPages() throws {
-        let fm = FileManager.default
-        let pagesPath = Config.pagesPath
-        let pageFiles = fm.getAllFiles(from: pagesPath, withExtension: ".md")
-
-        var loadedPages: [Page] = []
-
-        for pageFile in pageFiles {
-            let page = try Page(filePath: pageFile.path)
-            loadedPages.append(page)
-        }
-
-        self.pages = loadedPages
-        print("📄 Loaded \(pages.count) pages")
-    }
-
-    // MARK: - File Writing
-
-    private func writePages() throws {
-        try runConcurrently(
-            operations: pages.map { page in
-                { try page.writePage() }
-            }
+        let useCase = GeneratePagesUseCase(
+            contentRepository: contentRepository,
+            fileRepository: fileRepository,
+            templateRepository: templateRepository
         )
-    }
 
-    private func writeSitemap() throws {
-        let data: [[String: Any]] = [
-            ["pages": pages.map { $0.toDictionary() }]
-        ]
-
-        let filename = "sitemap-pages.xml"
-        print("🗺️  Writing pages sitemap: \(filename)")
-
-        try writeFile(dataList: data, template: "page/sitemap.xml", to: filename)
+        let result = try useCase.execute()
+        self.pages = result.pages
     }
 }

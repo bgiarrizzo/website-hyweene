@@ -18,7 +18,7 @@ final class MockContentRepository: ContentRepository, @unchecked Sendable {
 
 /// Controllable `FileRepository` that records all writes.
 final class MockFileRepository: FileRepository, @unchecked Sendable {
-    var written: [String: String] = [:]   // relativePath → content
+    var written: [String: String] = [:]  // relativePath → content
     var errorToThrow: Error?
 
     func writeFile(content: String, to relativePath: String) throws {

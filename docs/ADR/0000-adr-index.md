@@ -43,3 +43,9 @@ Each ADR MUST include:
 | 0013 | [0013-environment-variable-configuration.md](0013-environment-variable-configuration.md) | Environment-variable-based configuration | Accepted |
 | 0014 | [0014-clean-architecture-cli-migration.md](0014-clean-architecture-cli-migration.md) | Clean Architecture CLI migration | Accepted |
 | 0015 | [0015-use-case-boundary-and-error-strategy.md](0015-use-case-boundary-and-error-strategy.md) | Use-case boundary and error strategy | Accepted |
+| 0016 | [0016-links-pipeline-use-case-migration.md](0016-links-pipeline-use-case-migration.md) | Links pipeline migration to Domain use case and Data adapters | Accepted |
+| 0017 | [0017-pages-pipeline-use-case-migration.md](0017-pages-pipeline-use-case-migration.md) | Pages pipeline migration to Domain use case and Data adapters | Accepted |
+| 0018 | [0018-homepage-composition-decoupled-from-runtime-generators.md](0018-homepage-composition-decoupled-from-runtime-generators.md) | Homepage composition decoupled from runtime generators | Accepted |
+| 0019 | [0019-resume-pipeline-migration-to-aggregate-use-case.md](0019-resume-pipeline-migration-to-aggregate-use-case.md) | Resume pipeline migration to aggregate Domain use case | Accepted |
+| 0020 | [0020-learn-pipeline-migration-to-domain-use-case.md](0020-learn-pipeline-migration-to-domain-use-case.md) | Learn pipeline migration to Domain use case and Data adapters | Accepted |
+| 0021 | [0021-remove-legacy-mutable-models.md](0021-remove-legacy-mutable-models.md) | Remove legacy mutable Models layer after generator migrations | Accepted |

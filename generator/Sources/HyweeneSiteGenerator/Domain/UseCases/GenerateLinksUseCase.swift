@@ -42,20 +42,21 @@ public struct GenerateLinksUseCase: Sendable {
     // MARK: - Individual Link Pages
 
     private func writeLinks(_ links: [LinkItemEntity]) throws {
-        try runConcurrently(operations: links.map { link in
-            {
-                let context: [String: Any] = [
-                    "page_title": link.title,
-                    "link": link.toDictionary(),
-                ]
-                let html = try self.templateRepository.render(
-                    template: "links/single.stencil", context: context)
-                try self.fileRepository.writeFile(
-                    content: html,
-                    to: "liens/\(link.path)/index.html")
-                print("🔗 Writing link page: liens/\(link.path)/index.html")
-            }
-        })
+        try runConcurrently(
+            operations: links.map { link in
+                {
+                    let context: [String: Any] = [
+                        "page_title": link.title,
+                        "link": link.toDictionary(),
+                    ]
+                    let html = try self.templateRepository.render(
+                        template: "links/single.stencil", context: context)
+                    try self.fileRepository.writeFile(
+                        content: html,
+                        to: "liens/\(link.path)/index.html")
+                    print("🔗 Writing link page: liens/\(link.path)/index.html")
+                }
+            })
     }
 
     // MARK: - Links List
@@ -115,8 +116,11 @@ public struct GenerateLinksUseCase: Sendable {
         return linksByYear.keys.sorted(by: >).map { year in
             let monthsDict = linksByYear[year] ?? [:]
 
-            let monthGroups: [[String: Any]] = monthsDict.keys.sorted(by: >).compactMap { monthNumber in
-                guard let monthLinks = monthsDict[monthNumber], !monthLinks.isEmpty else { return nil }
+            let monthGroups: [[String: Any]] = monthsDict.keys.sorted(by: >).compactMap {
+                monthNumber in
+                guard let monthLinks = monthsDict[monthNumber], !monthLinks.isEmpty else {
+                    return nil
+                }
                 let monthName = monthDisplayName(from: monthLinks.first!.publishDate.month)
 
                 let sortedLinks = monthLinks.sorted {

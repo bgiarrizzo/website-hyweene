@@ -82,3 +82,30 @@ The CLI runtime also includes content maintenance commands:
 - Keep old and new paths side-by-side when necessary.
 - Validate generated output consistency at each migration step.
 - Add tests for each migrated type in the mirrored test tree.
+
+## Migration Progress (May 2026)
+
+- Blog pipeline migrated:
+   - `GenerateBlogUseCase`
+   - `BlogPostEntity`, `BuildBlogResult`
+   - `ContentRepository` + file/template adapters
+- Links pipeline migrated:
+   - `GenerateLinksUseCase`
+   - `LinkItemEntity`, `BuildLinksResult`
+   - `LinkContentRepository` + file/template adapters
+- Pages pipeline migrated:
+   - `GeneratePagesUseCase`
+   - `PageEntity`, `BuildPagesResult`
+   - `PageContentRepository` + file/template adapters
+- Learn pipeline migrated:
+   - `GenerateLearnUseCase`
+   - `LearnModuleEntity`, `LearnModulePageEntity`, `BuildLearnResult`
+   - `LearnContentRepository` + filesystem adapter
+- Homepage composition migrated:
+   - `GenerateHomepageUseCase`
+   - runtime input is now `[BlogPostEntity]` + `[LinkItemEntity]`
+- Resume pipeline migrated:
+   - `GenerateResumeUseCase`
+   - `ResumeEntity` aggregate with typed section entities
+   - `ResumeContentRepository` + filesystem adapter
+- Runtime generators (`BlogGenerator`, `LinksGenerator`, `PagesGenerator`, `LearnGenerator`, `HomepageGenerator`, `ResumeGenerator`) are now orchestration adapters delegating to Domain use cases.

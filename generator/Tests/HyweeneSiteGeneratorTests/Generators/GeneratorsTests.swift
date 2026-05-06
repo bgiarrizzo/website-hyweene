@@ -52,9 +52,7 @@ struct GeneratorsInitTests {
 
     @Test("HomepageGenerator initializes correctly with blog and links generators")
     func homepageGeneratorInitialization() {
-        let blog = BlogGenerator()
-        let links = LinksGenerator()
-        let generator = HomepageGenerator(blog: blog, links: links)
+        let generator = HomepageGenerator(posts: [], links: [])
 
         #expect(type(of: generator) == HomepageGenerator.self)
     }

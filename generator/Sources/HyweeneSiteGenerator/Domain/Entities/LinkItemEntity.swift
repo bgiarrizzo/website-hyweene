@@ -63,6 +63,7 @@ public struct LinkItemEntity: @unchecked Sendable {
 
     private func isImageURL(_ value: String) -> Bool {
         let url = value.lowercased()
-        return url.hasSuffix(".jpg") || url.hasSuffix(".jpeg") || url.hasSuffix(".png") || url.hasSuffix(".gif")
+        return url.hasSuffix(".jpg") || url.hasSuffix(".jpeg") || url.hasSuffix(".png")
+            || url.hasSuffix(".gif")
     }
 }

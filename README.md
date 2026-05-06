@@ -78,6 +78,14 @@ swift build
 - Data access and rendering adapters remain isolated from Domain rules.
 - Migration is incremental to keep generated output behavior stable.
 
+Current migration status:
+- `BlogGenerator` delegates to `GenerateBlogUseCase` (Domain + Data adapters).
+- `LinksGenerator` delegates to `GenerateLinksUseCase` (Domain + Data adapters).
+- `PagesGenerator` delegates to `GeneratePagesUseCase` (Domain + Data adapters).
+- `LearnGenerator` delegates to `GenerateLearnUseCase` (Domain + Data adapters).
+- `HomepageGenerator` delegates to `GenerateHomepageUseCase` and consumes Domain entities directly.
+- `ResumeGenerator` delegates to `GenerateResumeUseCase` (Domain aggregate + Data repository).
+
 ## Tests
 
 ```bash

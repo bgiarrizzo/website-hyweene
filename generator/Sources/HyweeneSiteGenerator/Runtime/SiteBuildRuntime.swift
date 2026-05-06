@@ -75,7 +75,8 @@ public func buildSite() throws -> BuildSummary {
     print("# Step 3: Generating homepage")
     print("#", String(repeating: "=", count: 80))
 
-    let homepageGenerator = HomepageGenerator(blog: blogGenerator, links: linksGenerator)
+    let homepageGenerator = HomepageGenerator(
+        posts: blogGenerator.posts, links: linksGenerator.links)
     try homepageGenerator.generate()
     print("")
 
