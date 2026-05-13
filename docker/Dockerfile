@@ -10,7 +10,7 @@ COPY . /app/
 RUN cd generator && \
     swift package resolve && \
     swift build -c release && \
-    ./build/release/hyweene build --docker
+    ./generator/build/release/hyweene build --docker
 
 # -----------------------------------------------------------------------------
 # Final image
