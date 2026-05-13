@@ -27,10 +27,12 @@ public struct BuildSummary: Sendable {
 }
 
 /// Build the full website and release it.
+/// - Parameter docker: When `true`, the release is copied to `currentReleasePath` instead of
+///   creating a symbolic link. Useful when running inside a Docker container.
 /// - Returns: A `BuildSummary` with key generation metrics.
 /// - Throws: Any generation, rendering, or filesystem error.
 @discardableResult
-public func buildSite() throws -> BuildSummary {
+public func buildSite(docker: Bool = false) throws -> BuildSummary {
     print("🚀 Site Generator Starting...")
     print("📍 Base URL: \(Config.baseURL)")
     print("📂 Release Path: \(Config.releasePath)")
@@ -92,8 +94,14 @@ public func buildSite() throws -> BuildSummary {
     print("# Step 5: Releasing site")
     print("#", String(repeating: "=", count: 80))
 
-    print("🔗 Creating symlink...")
-    try releaseSite()
+    /// if flag --docker is set, we are running in a container and should not create a symlink to the release path, as it may not be supported in all environments. Instead, we will just copy the files to the release path.
+
+    if docker {
+        print("📦 Copying release to current path (Docker mode)...")
+    } else {
+        print("🔗 Creating symlink...")
+    }
+    try releaseSite(docker: docker)
     print("")
 
     let summary = BuildSummary(
@@ -117,7 +125,9 @@ public func buildSite() throws -> BuildSummary {
     print("  • Learning module pages: \(summary.learningPages)")
     print("  • Categories: \(summary.categories)")
     print("")
-    print("🎉 Site ready at: \(Config.currentReleasePath) -> \(Config.releasePath)")
+    print(
+        "🎉 Site ready at: \(docker ? Config.currentReleasePath : "\(Config.currentReleasePath) -> \(Config.releasePath)")"
+    )
 
     return summary
 }

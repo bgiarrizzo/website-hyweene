@@ -10,8 +10,8 @@ public struct BuildSiteUseCase: Sendable {
     private let buildOperation: BuildOperation
 
     /// Creates a build use case.
-    /// - Parameter buildOperation: Callable build implementation. Defaults to `buildSite`.
-    public init(buildOperation: @escaping BuildOperation = buildSite) {
+    /// - Parameter buildOperation: Callable build implementation. Defaults to `buildSite()`.
+    public init(buildOperation: @escaping BuildOperation = { try buildSite() }) {
         self.buildOperation = buildOperation
     }
 

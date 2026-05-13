@@ -2,7 +2,7 @@ import Foundation
 
 extension FileManager {
     // MARK: - File Discovery
-    
+
     /// Get all files from a path with a specific extension
     /// - Parameters:
     ///   - path: Directory path to search
@@ -11,41 +11,44 @@ extension FileManager {
     func getAllFiles(from path: String, withExtension fileExtension: String = ".md") -> [URL] {
         let directoryURL = URL(fileURLWithPath: path)
         var fileURLs: [URL] = []
-        
-        guard let enumerator = self.enumerator(
-            at: directoryURL,
-            includingPropertiesForKeys: [.isRegularFileKey],
-            options: [.skipsHiddenFiles, .skipsPackageDescendants]
-        ) else {
+
+        guard
+            let enumerator = self.enumerator(
+                at: directoryURL,
+                includingPropertiesForKeys: [.isRegularFileKey],
+                options: [.skipsHiddenFiles, .skipsPackageDescendants]
+            )
+        else {
             return []
         }
-        
+
         for case let fileURL as URL in enumerator {
-            guard (try? fileURL.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true else {
+            guard (try? fileURL.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true
+            else {
                 continue
             }
-            
+
             if fileURL.pathExtension == fileExtension.replacingOccurrences(of: ".", with: "") {
                 fileURLs.append(fileURL)
             }
         }
-        
+
         return fileURLs.sorted { $0.path < $1.path }
     }
-    
+
     // MARK: - Directory Operations
-    
+
     /// Create directory if it doesn't exist
     /// - Parameter path: Directory path to create
     /// - Throws: FileManager errors
     func createDirectoryIfNeeded(at path: String) throws {
         let url = URL(fileURLWithPath: path)
-        
+
         if !fileExists(atPath: path) {
             try createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
         }
     }
-    
+
     /// Copy directory contents recursively
     /// - Parameters:
     ///   - source: Source directory path
@@ -54,27 +57,27 @@ extension FileManager {
     public func copyDirectory(from source: String, to destination: String) throws {
         let sourceURL = URL(fileURLWithPath: source)
         let destinationURL = URL(fileURLWithPath: destination)
-        
+
         // Create destination if it doesn't exist
         try createDirectoryIfNeeded(at: destination)
-        
+
         // Get all items in source directory
         let items = try contentsOfDirectory(at: sourceURL, includingPropertiesForKeys: nil)
-        
+
         for item in items {
             let destinationPath = destinationURL.appendingPathComponent(item.lastPathComponent)
-            
+
             // Remove existing item if it exists
             if fileExists(atPath: destinationPath.path) {
                 try removeItem(at: destinationPath)
             }
-            
+
             try copyItem(at: item, to: destinationPath)
         }
     }
-    
+
     // MARK: - Symlink Operations
-    
+
     /// Create a symbolic link
     /// - Parameters:
     ///   - source: Source path (target of the symlink)
@@ -82,34 +85,34 @@ extension FileManager {
     /// - Throws: FileManager errors
     func createSymlink(from source: String, to destination: String) throws {
         let destURL = URL(fileURLWithPath: destination)
-        
+
         // Remove existing symlink or file
         if fileExists(atPath: destination) {
             try removeItem(at: destURL)
         }
-        
+
         try createSymbolicLink(
             at: destURL,
             withDestinationURL: URL(fileURLWithPath: source)
         )
-        
+
         print("✅ Created symlink: \(destination) -> \(source)")
     }
-    
+
     // MARK: - Release Management
-    
+
     /// Cleanup old releases, keeping only the most recent ones
     /// - Parameters:
     ///   - releasesPath: Path to releases directory
     ///   - keep: Number of releases to keep (default: 3)
     func cleanupReleases(at releasesPath: String, keep: Int = 3) throws {
         let releasesURL = URL(fileURLWithPath: releasesPath)
-        
+
         guard fileExists(atPath: releasesPath) else {
             print("⚠️  Releases directory doesn't exist: \(releasesPath)")
             return
         }
-        
+
         // Get all release directories sorted by name (timestamp) descending
         let releases = try contentsOfDirectory(
             at: releasesURL,
@@ -120,22 +123,22 @@ extension FileManager {
             (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
         }
         .sorted { $0.lastPathComponent > $1.lastPathComponent }
-        
+
         // Keep only the most recent 'keep' releases
         let toDelete = releases.dropFirst(keep)
-        
+
         for release in toDelete {
             print("🗑️  Deleting old release: \(release.lastPathComponent)")
             try removeItem(at: release)
         }
-        
+
         if toDelete.isEmpty {
             print("✅ No old releases to delete (keeping \(keep) most recent)")
         }
     }
-    
+
     // MARK: - File Writing
-    
+
     /// Write string content to file
     /// - Parameters:
     ///   - content: Content to write
@@ -143,14 +146,14 @@ extension FileManager {
     /// - Throws: Encoding or FileManager errors
     func writeFile(content: String, to path: String) throws {
         let url = URL(fileURLWithPath: path)
-        
+
         // Create parent directory if needed
         let parentDir = url.deletingLastPathComponent().path
         try createDirectoryIfNeeded(at: parentDir)
-        
+
         try content.write(to: url, atomically: true, encoding: .utf8)
     }
-    
+
     /// Read string content from file
     /// - Parameter path: File path
     /// - Returns: File content as string
@@ -163,16 +166,31 @@ extension FileManager {
 
 // MARK: - Global Helper Functions
 
-/// Release the site by creating symlink and cleaning old releases
-public func releaseSite() throws {
+/// Release the site by pointing `currentReleasePath` at the latest build and cleaning old releases.
+///
+/// - Parameter docker: When `true`, the release directory is **copied** to `currentReleasePath`
+///   instead of creating a symbolic link. Use this in Docker environments where symlinks may not
+///   be supported across mount points.
+public func releaseSite(docker: Bool = false) throws {
     let fm = FileManager.default
-    
-    // Create symlink to latest build
-    try fm.createSymlink(
-        from: Config.releasePath,
-        to: Config.currentReleasePath
-    )
-    
+
+    if docker {
+        // In Docker environments symlinks across bind-mount boundaries are unreliable.
+        // Remove the existing current directory (if any) and copy the full release instead.
+        let currentURL = URL(fileURLWithPath: Config.currentReleasePath)
+        if fm.fileExists(atPath: Config.currentReleasePath) {
+            try fm.removeItem(at: currentURL)
+        }
+        try fm.copyDirectory(from: Config.releasePath, to: Config.currentReleasePath)
+        print("✅ Copied release: \(Config.currentReleasePath)")
+    } else {
+        // Create symlink to latest build
+        try fm.createSymlink(
+            from: Config.releasePath,
+            to: Config.currentReleasePath
+        )
+    }
+
     // Cleanup old releases
     try fm.cleanupReleases(at: Config.releasesPath, keep: 3)
 }
